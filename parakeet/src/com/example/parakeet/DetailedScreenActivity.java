@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 /**
  * DetailedScreenActivity
  * @author Yoshimori
- *tests
+ *
  */
 public class DetailedScreenActivity extends FragmentActivity {
 
