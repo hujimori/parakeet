@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">parakeet</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_call_back">CallBackActivity</string>
+    <string name="twitter_consumer_key">w9MLMH6oVTiPgsTjp3EPQ</string>
+    <string name="twitter_consumer_secret">UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU</string>
+    <string name="twitter_oauth">Twitter認証</string>
+    <string name="twitter_callback_url">gabu://twitter
+
+    </string>
+    <string name="a_name">kutimanko</string>
+    <string name="_text">本文</string>
+    <string name="menu_refresh">更新</string>
+    <string name="menu_tweet">つぶやく</string>
+    <string-array name="item">
+        <item>MyTweet</item>
+        <item>Follows</item>
+        <item>Folleowers</item>
+        <item>Favorite</item>
+        <item>Setting</item>
+    </string-array>
+
+</resources>

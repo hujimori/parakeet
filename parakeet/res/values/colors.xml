@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 既読時の背景色（薄水色） -->
+    <color name="status_item_background_other">#D3D3D3</color>
+
+    <!-- 未読時の背景色（白色） -->
+    <color name="status_item_background_me">#FFFFFF</color>
+
+</resources>
