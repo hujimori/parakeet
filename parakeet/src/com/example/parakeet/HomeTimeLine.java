@@ -20,25 +20,27 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 /**
- *
+ * 
  * @author Yoshimori
- *
+ * 
  */
-public class HomeTimeLine extends PullToRefreshListFragment implements OnRefreshListener2<ListView> {
+public class HomeTimeLine extends PullToRefreshListFragment implements
+		OnRefreshListener2<ListView> {
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Constant declaration
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
 	private static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
-	private static final int REQUEST_CODE = 1; //REQUEST_CODE
-	private static final int RESULT_OK = 2; //RESULT_CODE'
+	private static final int REQUEST_CODE = 1; // REQUEST_CODE
+	private static final int RESULT_CODE = 2; // RESULT_CODE'
 	public static int API_COUNT = 2; // API usage count
-	public static final String ARG_SECTION_NUMBER = "position_number"; // This fragment's tag
+	public static final String ARG_SECTION_NUMBER = "position_number"; // This fragmnet's tag
+																		
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Field declaration
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private TweetAdapter mAdapter;
 	private Twitter mTwitter;
 	private MyUserStreamAdapter myUserStreamAdapter;
@@ -50,6 +52,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 
 	/**
 	 * Factory method
+	 * 
 	 * @pFram position
 	 * @return fragment object
 	 */
@@ -70,18 +73,17 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 
 			// Create objects
 			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
-			mAdapter = new TweetAdapter(getActivity(), mTwitter);
+			mAdapter = new TweetAdapter(getActivity());
 			mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity());
 			myUserStreamAdapter = new MyUserStreamAdapter();
 
 			/**
-			 *  Set
-			 *  ConsumerKey,ConsumerSecret
-			 *  AccessToken,AccessTokenSecret
+			 * Set ConsumerKey,ConsumerSecret AccessToken,AccessTokenSecret
 			 */
 			twitterStream = new TwitterStreamFactory().getInstance();
 			twitterStream.setOAuthConsumer(ConsumerKey, ConsumerSecret);
-			twitterStream.setOAuthAccessToken(TwitterUtils.loadAccessToken(getActivity()));
+			twitterStream.setOAuthAccessToken(TwitterUtils
+					.loadAccessToken(getActivity()));
 
 			mLoadStatus.loadTimeLine();
 
@@ -133,7 +135,8 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 		intent.putExtra("screenname", status.getUser().getScreenName());
 		intent.putExtra("text", status.getText());
 		intent.putExtra("url", status.getUser().getBiggerProfileImageURL());
-		intent.putExtra("date", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(status.getCreatedAt()));
+		intent.putExtra("date", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+				.format(status.getCreatedAt()));
 		intent.putExtra("name", status.getUser().getName());
 		intent.setClass(getActivity(), DetailedScreenActivity.class);
 		startActivityForResult(intent, REQUEST_CODE);
@@ -153,11 +156,12 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 
 		switch (requestCode) {
 		case REQUEST_CODE:
-			if (resultCode == RESULT_OK) {
+			if (resultCode == RESULT_CODE) {
 
 				int position = bundle.getInt("position");
 				Long statusId = bundle.getLong("statusID");
-				Status status = (Status) getListView().getItemAtPosition(position);
+				Status status = (Status) getListView().getItemAtPosition(
+						position);
 
 				update = new TwitterUpdate(mTwitter, getActivity());
 				update.favorite(statusId, mAdapter, position, status);
@@ -193,7 +197,8 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO 自動生成されたメソッド・スタブ
 
-		mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity(), mPullToRefreshListView);
+		mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity(),
+				mPullToRefreshListView);
 		mLoadStatus.loadPastTimeline(API_COUNT);
 
 		API_COUNT++;
@@ -210,12 +215,12 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 
 	/**
 	 * Called when receive status
+	 * 
 	 * @author Yoshimori
-	 *
+	 * 
 	 */
 	class MyUserStreamAdapter extends UserStreamAdapter {
 		Handler handler = new Handler();
-
 
 		@Override
 		public void onStatus(final Status status) {
@@ -224,7 +229,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements OnRefresh
 
 				@Override
 				public void run() {
-					//TODO 自動生成されたメソッド・スタブ
+					// TODO 自動生成されたメソッド・スタブ
 					handler.post(new Runnable() {
 
 						@Override

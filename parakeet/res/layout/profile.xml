@@ -31,7 +31,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -59,14 +59,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="Followes" />
+                    android:text="Followers" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearlayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearlayout1"
                 android:gravity="center" >
 
                 <Button
@@ -80,38 +79,33 @@
                 android:id="@+id/bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearlayout2"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
                 android:text="自己紹介:" />
 
             <TextView
                 android:id="@+id/bio_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bio"
                 android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/URL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/bio_text"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="48dp"
                 android:text="URL:" />
 
             <TextView
                 android:id="@+id/URL_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/URL"
-                android:layout_marginLeft="8dp"
-                android:text="テスト" />
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/entry"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="48dp"
@@ -121,8 +115,7 @@
                 android:id="@+id/entryday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:text="テスト" />
+                android:layout_marginLeft="8dp" />
 
             <TextView
                 android:id="@+id/userId"
@@ -134,11 +127,10 @@
 
             <TextView
                 android:id="@+id/Id"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:text="テスト" />
+                android:layout_marginLeft="8dp" />
         </LinearLayout>
     </ScrollView>
 

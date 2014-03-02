@@ -10,7 +10,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
-public class Mention extends PullToRefreshListFragment implements OnRefreshListener2<ListView> {
+public class Mention extends PullToRefreshListFragment implements
+		OnRefreshListener2<ListView> {
 
 	private TweetAdapter mAdapter;
 	private Twitter mTwitter;
@@ -30,14 +31,14 @@ public class Mention extends PullToRefreshListFragment implements OnRefreshListe
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState == null) {
 
 			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
-			mAdapter = new TweetAdapter(getActivity(),mTwitter);
+			mAdapter = new TweetAdapter(getActivity());
 
 
 			mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity());
@@ -45,12 +46,9 @@ public class Mention extends PullToRefreshListFragment implements OnRefreshListe
 		}
 	}
 
-
-
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		super.onActivityCreated(savedInstanceState);
 		setListAdapter(mAdapter);
 
@@ -58,26 +56,27 @@ public class Mention extends PullToRefreshListFragment implements OnRefreshListe
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		super.onViewCreated(view, savedInstanceState);
 
 		mPullToRefreshListView = getPullToRefreshListView();
 
-		mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity(), mPullToRefreshListView);
+		mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity(),
+				mPullToRefreshListView);
 
 		mPullToRefreshListView.setOnRefreshListener(this);
 
 	}
 
 	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 
 		mLoadStatus.loadMention();
 
 	}
 
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 
 	}
 

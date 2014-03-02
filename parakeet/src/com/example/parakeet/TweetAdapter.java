@@ -24,18 +24,20 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 	private ViewHolder viewHolder;
 	private CharSequence charSequence;
 	private int background;
-	private Twitter mTwitter;
+
 	private Context mContext;
-	private Pattern urlPattern = Pattern.compile("(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+"
-			, Pattern.CASE_INSENSITIVE);
+	private Pattern urlPattern = Pattern.compile(
+			"(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+",
+			Pattern.CASE_INSENSITIVE);
 	private String url;
 
-	public TweetAdapter(Context mContext, Twitter mTwitter) {
+	public TweetAdapter(Context mContext) {
 		super(mContext, android.R.layout.simple_list_item_1);
 
 		this.mContext = mContext;
-		mInflater = (LayoutInflater) mContext.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-		this.mTwitter = mTwitter;
+		mInflater = (LayoutInflater) mContext
+				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
 	}
 
 	@Override
@@ -50,17 +52,21 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
 
-			viewHolder.screenName = (TextView) convertView.findViewById(R.id.screen_name);
+			viewHolder.screenName = (TextView) convertView
+					.findViewById(R.id.screen_name);
 
 			viewHolder.text = (TextView) convertView.findViewById(R.id.text);
 
-			viewHolder.tweetTime = (TextView) convertView.findViewById(R.id.tweetTime);
+			viewHolder.tweetTime = (TextView) convertView
+					.findViewById(R.id.tweetTime);
 
 			viewHolder.date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-			viewHolder.icon = (SmartImageView) convertView.findViewById(R.id.icon);
+			viewHolder.icon = (SmartImageView) convertView
+					.findViewById(R.id.icon);
 
-			viewHolder.favIcon = (SmartImageView) convertView.findViewById(R.id.fav_icon);
+			viewHolder.favIcon = (SmartImageView) convertView
+					.findViewById(R.id.fav_icon);
 
 			viewHolder.via = (TextView) convertView.findViewById(R.id.via);
 
@@ -75,24 +81,24 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 		if (status.isFavorited()) {
 
-			viewHolder.favIcon.setImageResource(R.drawable.btn_rating_star_on_disabled_holo_light);
+			viewHolder.favIcon
+					.setImageResource(R.drawable.btn_rating_star_on_disabled_holo_light);
+		} else {
+
+			viewHolder.favIcon
+					.setImageResource(R.drawable.btn_rating_star_off_disabled_holo_light);
+
 		}
-		else {
 
-			viewHolder.favIcon.setImageResource(R.drawable.btn_rating_star_off_disabled_holo_light);
-
-		}
-
-		if (status.isRetweet())
-		{
+		if (status.isRetweet()) {
 			background = R.drawable.status_item_background_other;
-		}
-		else {
+		} else {
 			background = R.drawable.status_item_background_me;
 
 		}
 
-		convertView.setBackground(mContext.getResources().getDrawable(background));
+		convertView.setBackground(mContext.getResources().getDrawable(
+				background));
 
 		viewHolder.name.setText(status.getUser().getName());
 
@@ -100,7 +106,8 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 		viewHolder.text.setText(status.getText());
 
-		viewHolder.tweetTime.setText(viewHolder.date.format(status.getCreatedAt()));
+		viewHolder.tweetTime.setText(viewHolder.date.format(status
+				.getCreatedAt()));
 
 		viewHolder.icon.setImageUrl(status.getUser().getProfileImageURL());
 
