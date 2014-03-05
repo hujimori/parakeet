@@ -1,15 +1,24 @@
 package com.example.parakeet;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.R.integer;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.Toast;
 
 /**
  * MainActivity
@@ -23,6 +32,30 @@ public class MainActivity extends FragmentActivity {
 	//----------------------------------------------------------------------------------------------
 	private ViewPager mViewPager;
 	private TabsPagerAdapter mTabsPagerAdapter;
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawList;
+	
+	
+	//----------------------------------------------------------------------------------------------
+	// Array declaration
+	//----------------------------------------------------------------------------------------------
+	private int[] mImages = {
+			
+			
+			R.drawable.ic_menu_home,
+			R.drawable.ic_menu_search,
+			R.drawable.ic_contact_picture,
+			R.drawable.ic_sysbar_quicksettings
+	};
+	
+	private String[] mTitles = {
+			
+			"Home",
+			"Search",
+			"Profile",
+			"Setting"
+			
+	};
 
 	/**
 	 * Called when the activity is first created.
@@ -46,9 +79,23 @@ public class MainActivity extends FragmentActivity {
 				ActionBar actionBar = getActionBar();
 				actionBar.setDisplayHomeAsUpEnabled(true);
 
+				mDrawerLayout = (DrawerLayout) findViewById(R.layout.drawer);
 				mViewPager = (ViewPager) findViewById(R.id.pager);
 				mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager()); // Create TabsPagerAdapter instance
 				mViewPager.setAdapter(mTabsPagerAdapter); // Set adapter
+				mDrawList = (ListView) findViewById(R.id.left_drawer);
+				
+				List<BindData> objects = new ArrayList<BindData>();
+				for ( int i = 0; i < mTitles.length; i++) {
+					BindData bindData = new BindData(mTitles[i], mImages[i]);
+					objects.add(bindData);
+				}
+				
+				if (mDrawerLayout == null) {
+				Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+			
+				}
+				//mDrawList.setAdapter(new ArrayAdapter<BindData>(this, R.layout.list_item_drawer, objects));
 
 			}
 		}
@@ -67,6 +114,8 @@ public class MainActivity extends FragmentActivity {
 	/**
 	 * Called when the menu item is selected
 	 */
+
+	/*
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		if (android.R.id.home == item.getItemId()) {
@@ -100,7 +149,7 @@ public class MainActivity extends FragmentActivity {
 		return super.onMenuItemSelected(featureId, item);
 
 	}
-
+*/
 	/**
 	 * Called when the option item is selected
 	 */

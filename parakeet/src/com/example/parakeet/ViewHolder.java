@@ -16,6 +16,7 @@ public class ViewHolder {
 	public TextView via;
 	public java.text.DateFormat date;
 	public ImageView thumn;
+	public ImageView imageView;
 	public SmartImageView icon;
 	public SmartImageView favIcon;
 
