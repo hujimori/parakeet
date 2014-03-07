@@ -88,7 +88,7 @@ public class Profile extends FragmentActivity implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.tweet:
-			intent = new Intent();
+		/*	intent = new Intent();
 			intent.setClass(this, UserTimeLine.class);
 			startActivityForResult(intent, REQUEST_CODE_1);
 			break;
@@ -110,7 +110,7 @@ public class Profile extends FragmentActivity implements OnClickListener {
 			intent.setClass(this, Favorites.class);
 			startActivityForResult(intent, REQUEST_CODE_4);
 			break;
-
+*/
 		}
 
 	}

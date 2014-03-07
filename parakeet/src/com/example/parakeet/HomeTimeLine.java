@@ -36,7 +36,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	private static final int RESULT_CODE = 2; // RESULT_CODE'
 	public static int API_COUNT = 2; // API usage count
 	public static final String ARG_SECTION_NUMBER = "position_number"; // This fragmnet's tag
-																		
+																	
 
 	// ----------------------------------------------------------------------------------------------
 	// Field declaration

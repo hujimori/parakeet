@@ -29,7 +29,7 @@ public class LoadStatus {
 	private Twitter mTwitter;
 	private Context mContext;
 	private PullToRefreshListView mPullToRefreshListView;
-	private FollowsAdpater mFollowsAdpater;
+//	private FollowsAdpater mFollowsAdpater;
 	private PagableResponseList<User> user;
 
 	public LoadStatus(TweetAdapter mAdapter, Twitter mTwitter, Context mcontext) {
@@ -47,14 +47,14 @@ public class LoadStatus {
 		this.mContext = mContext;
 	}
 
-	public LoadStatus(FollowsAdpater mFollowsAdpater, Twitter mTwitter,
+	/*public LoadStatus(FollowsAdpater mFollowsAdpater, Twitter mTwitter,
 			Context mContext) {
 
 		this.mFollowsAdpater = mFollowsAdpater;
 		this.mTwitter = mTwitter;
 		this.mContext = mContext;
 	}
-
+*/
 	public LoadStatus(TweetAdapter mAdapter, Twitter mTwitter,
 			Context mContext, PullToRefreshListView mPullToRefreshListView) {
 
@@ -241,7 +241,7 @@ public class LoadStatus {
 
 	}
 
-	public void loadFollows() {
+/*	public void loadFollows() {
 
 		AsyncTask<Void, Void, PagableResponseList<User>> task = new AsyncTask<Void, Void, PagableResponseList<User>>() {
 
@@ -283,8 +283,8 @@ public class LoadStatus {
 		task.execute();
 
 	}
-
-	public void loadFollowers() {
+*/
+/*	public void loadFollowers() {
 
 		AsyncTask<Void, Void, PagableResponseList<User>> task = new AsyncTask<Void, Void, PagableResponseList<User>>() {
 
@@ -326,7 +326,7 @@ public class LoadStatus {
 		task.execute();
 
 	}
-	
+	*/
 	public void loadFavorites() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override

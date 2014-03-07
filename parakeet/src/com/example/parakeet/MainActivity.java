@@ -1,10 +1,5 @@
 package com.example.parakeet;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import android.R.integer;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,48 +8,36 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.Toast;
 
 /**
  * MainActivity
+ *
  * @author Yoshimori
  *
  */
 public class MainActivity extends FragmentActivity {
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Field declaration
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private ViewPager mViewPager;
 	private TabsPagerAdapter mTabsPagerAdapter;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawList;
-	
-	
-	//----------------------------------------------------------------------------------------------
+
+	// ----------------------------------------------------------------------------------------------
 	// Array declaration
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private int[] mImages = {
-			
-			
-			R.drawable.ic_menu_home,
-			R.drawable.ic_menu_search,
-			R.drawable.ic_contact_picture,
-			R.drawable.ic_sysbar_quicksettings
-	};
-	
+
+	R.drawable.ic_menu_home, R.drawable.ic_menu_search,
+			R.drawable.ic_contact_picture, R.drawable.ic_sysbar_quicksettings };
+
 	private String[] mTitles = {
-			
-			"Home",
-			"Search",
-			"Profile",
-			"Setting"
-			
+
+	"Home", "Search", "Profile", "Setting"
+
 	};
 
 	/**
@@ -79,25 +62,25 @@ public class MainActivity extends FragmentActivity {
 				ActionBar actionBar = getActionBar();
 				actionBar.setDisplayHomeAsUpEnabled(true);
 
-				mDrawerLayout = (DrawerLayout) findViewById(R.layout.drawer);
-				mViewPager = (ViewPager) findViewById(R.id.pager);
-				mTabsPagerAdapter = new TabsPagerAdapter(getSupportFragmentManager()); // Create TabsPagerAdapter instance
+				mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+				mTabsPagerAdapter = new TabsPagerAdapter(
+						getSupportFragmentManager()); // Create TabsPagerAdapter
+														// instance
 				mViewPager.setAdapter(mTabsPagerAdapter); // Set adapter
 				mDrawList = (ListView) findViewById(R.id.left_drawer);
-				
-				List<BindData> objects = new ArrayList<BindData>();
-				for ( int i = 0; i < mTitles.length; i++) {
-					BindData bindData = new BindData(mTitles[i], mImages[i]);
-					objects.add(bindData);
-				}
-				
-				if (mDrawerLayout == null) {
-				Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
-			
-				}
-				//mDrawList.setAdapter(new ArrayAdapter<BindData>(this, R.layout.list_item_drawer, objects));
 
 			}
+			/*
+			 * List<BindData> objects = new ArrayList<BindData>(); for ( int i =
+			 * 0; i < mTitles.length; i++) { BindData bindData = new
+			 * BindData(mTitles[i], mImages[i]); objects.add(bindData); }
+			 *
+			 * if (mDrawerLayout == null) { Toast.makeText(this, "null",
+			 * Toast.LENGTH_SHORT).show();
+			 *
+			 * } mDrawList.setAdapter(new ArrayAdapter<BindData>(this,
+			 * R.layout.list_item_drawer, objects));
+			 */
 		}
 	}
 
@@ -116,40 +99,29 @@ public class MainActivity extends FragmentActivity {
 	 */
 
 	/*
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		if (android.R.id.home == item.getItemId()) {
-
-			ImageView view = (ImageView) findViewById(android.R.id.home);
-			PopupMenu menu = new PopupMenu(this, view);
-
-			menu.inflate(R.menu.popup_menu);
-			menu.show();
-			menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-
-				@Override
-				public boolean onMenuItemClick(MenuItem item) {
-					// TODO 自動生成されたメソッド・スタブ
-					switch (item.getItemId()) {
-
-					case R.id.profile:
-						Intent intent = new Intent();
-						intent.setClass(MainActivity.this, Profile.class);
-						startActivity(intent);
-
-					default:
-						break;
-					}
-
-					return false;
-				}
-			});
-		}
-
-		return super.onMenuItemSelected(featureId, item);
-
-	}
-*/
+	 * @Override public boolean onMenuItemSelected(int featureId, MenuItem item)
+	 * { if (android.R.id.home == item.getItemId()) {
+	 *
+	 * ImageView view = (ImageView) findViewById(android.R.id.home); PopupMenu
+	 * menu = new PopupMenu(this, view);
+	 *
+	 * menu.inflate(R.menu.popup_menu); menu.show();
+	 * menu.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+	 *
+	 * @Override public boolean onMenuItemClick(MenuItem item) { // TODO
+	 * 自動生成されたメソッド・スタブ switch (item.getItemId()) {
+	 *
+	 * case R.id.profile: Intent intent = new Intent();
+	 * intent.setClass(MainActivity.this, Profile.class); startActivity(intent);
+	 *
+	 * default: break; }
+	 *
+	 * return false; } }); }
+	 *
+	 * return super.onMenuItemSelected(featureId, item);
+	 *
+	 * }
+	 */
 	/**
 	 * Called when the option item is selected
 	 */
