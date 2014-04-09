@@ -36,9 +36,9 @@ public class Mention extends PullToRefreshListFragment implements
 
 		if (savedInstanceState == null) {
 
-			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+			//mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
-			mAdapter = new TweetAdapter(getActivity());
+	//		mAdapter = new TweetAdapter(getActivity());
 
 
 			mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity());

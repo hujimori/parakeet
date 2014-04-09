@@ -1,41 +1,41 @@
 package com.example.parakeet;
 
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-/*ƒ^ƒu¶¬
+/*ï¿½^ï¿½uï¿½ï¿½ï¿½ï¿½
  *
  */
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
 	public TabsPagerAdapter(FragmentManager fm) {
 		super(fm);
-		// TODO ©“®¶¬‚³‚ê‚½ƒRƒ“ƒXƒgƒ‰ƒNƒ^[EƒXƒ^ƒu
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½Rï¿½ï¿½ï¿½Xï¿½gï¿½ï¿½ï¿½Nï¿½^ï¿½[ï¿½Eï¿½Xï¿½^ï¿½u
 	}
 
 	@Override
-	public Fragment getItem(int position) {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
+	public android.support.v4.app.Fragment getItem(int position) {
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
 		switch (position) {
 		case 0:
 			HomeTimeLine homeTimeLine = HomeTimeLine.getInstance(position);
 			return homeTimeLine;
-
-		case 1:
-			Mention mention = Mention.getInstance(position);
-			return mention;
+			/*
+			 * case 1: Mention mention = Mention.getInstance(position); return
+			 * mention; default: DirectMessage directMessage =
+			 * DirectMessage.getInstance(position); return directMessage;
+			 */
 		default:
-			DirectMessage directMessage = DirectMessage.getInstance(position);
-			return directMessage;
+			return null;
 		}
 
 	}
 
 	@Override
 	public int getCount() {
-		// TODO ©“®¶¬‚³‚ê‚½ƒƒ\ƒbƒhEƒXƒ^ƒu
-		return 3;
+		// TODO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê‚½ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Eï¿½Xï¿½^ï¿½u
+		// return 3;
+		return 1;
 	}
 
 	public CharSequence getPageTitle(int position) {

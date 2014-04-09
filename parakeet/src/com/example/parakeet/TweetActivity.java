@@ -33,7 +33,7 @@ public class TweetActivity extends FragmentActivity {
 
 		Intent intent = getIntent();
 
-		mTwitter = TwitterUtils.getTwitterInstance(this);
+	//	mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		update = new TwitterUpdate(mTwitter, this);
 

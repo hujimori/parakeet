@@ -112,6 +112,7 @@ public class TwitterOAuthActivity extends Activity {
 
 	private void successOAuth(AccessToken accessToken) {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
+		TwitterUtils.saveID(this, String.valueOf(accessToken.getUserId()));
 		TwitterUtils.storeAccessToken(this, accessToken);
 		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);

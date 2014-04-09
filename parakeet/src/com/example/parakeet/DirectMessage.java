@@ -50,7 +50,7 @@ public class DirectMessage extends ListFragment {
 
 			directMessageAdapter = new DirectMessageAdapter(getActivity());
 
-			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+	//		mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
 			loadStatus = new LoadStatus(directMessageAdapter, mTwitter, getActivity());
 			loadStatus.loadDirectMessage();

@@ -1,80 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp" >
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="12dp" >
 
-    <com.loopj.android.image.SmartImageView
-        android:id="@+id/icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
-
-    <TextView
-        android:id="@+id/screen_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/icon"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/icon"
-        android:src="@drawable/ic_launcher"
-        android:text="名前入ります" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/name"
-        android:layout_marginLeft="8dp"
-        android:layout_toRightOf="@+id/screen_name"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:text="\uFF20gabu" />
-
-    <TextView
-        android:id="@+id/text"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/screen_name"
-        android:layout_below="@+id/screen_name"
-        android:text="本文" />
+        android:background="#ffffff" >
 
-    <TextView
-        android:id="@+id/tweetTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/text"
-        android:text="ツイート時間"
-        android:textColor="#999999"
-        android:textSize="8sp" />
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp" />
 
-    <TextView
-        android:id="@+id/via"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/text"
-        android:text="via"
-        android:textColor="#999999"
-        android:textSize="8sp" />
+        <TextView
+            android:id="@+id/screen_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/icon"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_toRightOf="@+id/icon"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:src="@drawable/ic_launcher"
+            android:textColor="@color/main_color_light" />
 
-    <com.loopj.android.image.SmartImageView
-        android:id="@+id/fav_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/screen_name"
+            android:layout_below="@+id/screen_name"
+            android:layout_marginRight="4dp"
+            android:text="本文" />
 
-    <ImageView
-        android:id="@+id/thum"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/text"
-        android:layout_toLeftOf="@+id/tweetTime"
-        android:layout_toRightOf="@+id/via" />
+        <TextView
+            android:id="@+id/tweetTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/text"
+            android:layout_margin="4dp"
+            android:text="ツイート時間"
+            android:textColor="#999999"
+            android:textSize="8sp" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/via"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/text"
+            android:layout_margin="4dp"
+            android:text="via"
+            android:textColor="#999999"
+            android:textSize="8sp" />
+
+        <com.loopj.android.image.SmartImageView
+            android:id="@+id/fav_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+
+        <ImageView
+            android:id="@+id/thum"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/text"
+            android:layout_toLeftOf="@+id/tweetTime"
+            android:layout_toRightOf="@+id/via" />
+    </RelativeLayout>
+
+    <View
+        style="android"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/card_shadow" />
+
+</LinearLayout>

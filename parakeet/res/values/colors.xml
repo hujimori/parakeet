@@ -7,4 +7,15 @@
     <!-- 未読時の背景色（白色） -->
     <color name="status_item_background_me">#FFFFFF</color>
 
+    <!-- 自分のツイート背景色 -->
+    <color name="status_item_background">#ffccff</color>
+    
+    <!-- アクションバー背景色 -->
+    <color name="main_color_light">#ff994d</color>
+    <color name="main_color_dark">#e56200</color>
+
+    <!-- アクションアイテムの色 -->
+    <color name="selector_transparent1">#33ffffff</color>
+    <color name="selector_transparent2">#22ffffff</color>
+
 </resources>

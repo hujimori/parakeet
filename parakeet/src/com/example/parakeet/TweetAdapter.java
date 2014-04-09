@@ -1,11 +1,15 @@
 package com.example.parakeet;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
 import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.User;
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -14,27 +18,42 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.loopj.android.image.SmartImageView;
 
 public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
+	private class ViewHolder {
+		TextView screenName;
+		TextView text;
+		TextView via;
+		TextView tweetTime;
+		java.text.DateFormat date;
+		ImageView icon;
+		ImageView thumn;
+	}
+
 	private LayoutInflater mInflater;
-	private ViewHolder viewHolder;
+	private ViewHolder mViewHolder;
 	private CharSequence charSequence;
 	private int background;
-
 	private Context mContext;
 	private Pattern urlPattern = Pattern.compile(
 			"(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+",
 			Pattern.CASE_INSENSITIVE);
 	private String url;
+	private int mAnimatedPosition;
+	private User user;
+	private LinearLayout layout;
+	private ImageView imageView;
+	private View convertView;
 
-	public TweetAdapter(Context mContext) {
+	public TweetAdapter(Context mContext, int mAnimatedPosition) {
 		super(mContext, android.R.layout.simple_list_item_1);
 
 		this.mContext = mContext;
+
+		this.mAnimatedPosition = mAnimatedPosition;
 		mInflater = (LayoutInflater) mContext
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
@@ -46,91 +65,122 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 		Status status = getItem(position);
 
 		if (convertView == null) {
+
 			convertView = mInflater.inflate(R.layout.list_item_tweet, null);
 
-			viewHolder = new ViewHolder();
+			mViewHolder = new ViewHolder();
 
-			viewHolder.name = (TextView) convertView.findViewById(R.id.name);
-
-			viewHolder.screenName = (TextView) convertView
+			mViewHolder.screenName = (TextView) convertView
 					.findViewById(R.id.screen_name);
 
-			viewHolder.text = (TextView) convertView.findViewById(R.id.text);
+			mViewHolder.text = (TextView) convertView.findViewById(R.id.text);
 
-			viewHolder.tweetTime = (TextView) convertView
+			mViewHolder.tweetTime = (TextView) convertView
 					.findViewById(R.id.tweetTime);
 
-			viewHolder.date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			mViewHolder.date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-			viewHolder.icon = (SmartImageView) convertView
-					.findViewById(R.id.icon);
+			mViewHolder.icon = (ImageView) convertView.findViewById(R.id.icon);
 
-			viewHolder.favIcon = (SmartImageView) convertView
-					.findViewById(R.id.fav_icon);
+			mViewHolder.via = (TextView) convertView.findViewById(R.id.via);
 
-			viewHolder.via = (TextView) convertView.findViewById(R.id.via);
+			mViewHolder.thumn = (ImageView) convertView.findViewById(R.id.thum);
 
-			viewHolder.thumn = (ImageView) convertView.findViewById(R.id.thum);
-			convertView.setTag(viewHolder);
+			convertView.setTag(mViewHolder);
 
 		}
 
 		else {
-			viewHolder = (ViewHolder) convertView.getTag();
+			mViewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		if (status.isFavorited()) {
+		/*
+		 * if (status.isFavorited()) {
+		 * 
+		 * mViewHolder.favIcon
+		 * .setImageResource(R.drawable.btn_rating_star_on_disabled_holo_light);
+		 * } else {
+		 * 
+		 * mViewHolder.favIcon
+		 * .setImageResource(R.drawable.btn_rating_star_off_disabled_holo_light
+		 * );
+		 * 
+		 * }
+		 */
+		/*
+		 * if (status.isRetweet()) { background =
+		 * R.drawable.status_item_background_other; } else { background =
+		 * R.drawable.status_item_background_me;
+		 * 
+		 * }
+		 */
 
-			viewHolder.favIcon
-					.setImageResource(R.drawable.btn_rating_star_on_disabled_holo_light);
-		} else {
+		// convertView.setBackground(mContext.getResources().getDrawable(
+		// background));
 
-			viewHolder.favIcon
-					.setImageResource(R.drawable.btn_rating_star_off_disabled_holo_light);
+		mViewHolder.screenName.setText("@" + status.getUser().getScreenName()
+				+ "/" + status.getUser().getName());
 
-		}
+		mViewHolder.text.setText(status.getText());
 
-		if (status.isRetweet()) {
-			background = R.drawable.status_item_background_other;
-		} else {
-			background = R.drawable.status_item_background_me;
-
-		}
-
-		convertView.setBackground(mContext.getResources().getDrawable(
-				background));
-
-		viewHolder.name.setText(status.getUser().getName());
-
-		viewHolder.screenName.setText("@" + status.getUser().getScreenName());
-
-		viewHolder.text.setText(status.getText());
-
-		viewHolder.tweetTime.setText(viewHolder.date.format(status
+		mViewHolder.tweetTime.setText(mViewHolder.date.format(status
 				.getCreatedAt()));
 
-		viewHolder.icon.setImageUrl(status.getUser().getProfileImageURL());
+		mViewHolder.icon.setTag(status.getUser().getBiggerProfileImageURL());
+		DownLoadTask task1 = new DownLoadTask(mViewHolder.icon);
+		task1.setThumn(status.getUser().getBiggerProfileImageURL());
 
 		charSequence = Html.fromHtml(status.getSource());
 
-		viewHolder.via.setText("via " + charSequence.toString());
+		mViewHolder.via.setText("via " + charSequence.toString());
 
-		viewHolder.thumn.setVisibility(View.GONE);
+		mViewHolder.thumn.setVisibility(View.GONE);
+
+		startItemAnimation(position, convertView);
 
 		MediaEntity[] entities = status.getMediaEntities();
 		if (entities != null) {
 			for (MediaEntity media : entities) {
 				url = media.getMediaURL();
 
-				viewHolder.thumn.setTag(url);
+				mViewHolder.thumn.setVisibility(View.VISIBLE);
 
-				DownLoadTask task = new DownLoadTask(viewHolder.thumn);
-				task.execute(url);
+				mViewHolder.thumn.setTag(url);
+
+				DownLoadTask task2 = new DownLoadTask(mViewHolder.thumn);
+				task2.setThumn(url);
 			}
 		}
 
 		return convertView;
 
+	}
+
+	private void startItemAnimation(int position, View convertView) {
+
+		if (mAnimatedPosition < position) {
+
+			Animator animator = AnimatorInflater.loadAnimator(mContext,
+					R.anim.card_anim);
+
+			animator.setTarget(convertView);
+
+			animator.start();
+
+			mAnimatedPosition = position;
+		}
+	}
+
+	public void startItemAddAnimation(Status status) {
+
+		if (getPosition(status) == 0) {
+			Animator animator = AnimatorInflater.loadAnimator(mContext,
+					R.anim.item_add_anim);
+
+			animator.setTarget(this.convertView);
+
+			animator.start();
+		}
 	}
 
 }

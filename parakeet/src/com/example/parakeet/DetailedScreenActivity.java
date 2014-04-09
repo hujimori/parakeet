@@ -5,8 +5,9 @@ import android.support.v4.app.FragmentActivity;
 
 /**
  * DetailedScreenActivity
+ * 
  * @author Yoshimori
- *
+ * 
  */
 public class DetailedScreenActivity extends FragmentActivity {
 
@@ -18,8 +19,14 @@ public class DetailedScreenActivity extends FragmentActivity {
 
 		if (savedInstanceState == null) {
 			DetailedScreenFragment detailedScreenFragment = new DetailedScreenFragment();
-			detailedScreenFragment.setArguments(getIntent().getExtras());
-			getSupportFragmentManager().beginTransaction().add(R.id.content, detailedScreenFragment).commit();
+			Bundle bundle = new Bundle();
+			bundle.putSerializable("serial",
+					getIntent().getSerializableExtra("serial"));
+			// bundle.putString(key, value)
+			// detailedScreenFragment.setArguments(getIntent().getExtras());
+			detailedScreenFragment.setArguments(bundle);
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.content, detailedScreenFragment).commit();
 		}
 
 	}

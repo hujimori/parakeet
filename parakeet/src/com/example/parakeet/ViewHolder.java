@@ -1,6 +1,8 @@
 package com.example.parakeet;
 
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
@@ -11,6 +13,7 @@ import com.loopj.android.image.SmartImageView;
 public class ViewHolder {
 	public TextView name;
 	public TextView screenName;
+	public TextView textView;
 	public TextView text;
 	public TextView tweetTime;
 	public TextView via;
@@ -19,5 +22,10 @@ public class ViewHolder {
 	public ImageView imageView;
 	public SmartImageView icon;
 	public SmartImageView favIcon;
+	public SmartImageView smartImageView;
+	public LinearLayout layout;
+	public ImageView thum2;
+	public RadioButton radioButton;
+
 
 }

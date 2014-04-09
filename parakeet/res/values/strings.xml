@@ -8,13 +8,15 @@
     <string name="twitter_consumer_key">w9MLMH6oVTiPgsTjp3EPQ</string>
     <string name="twitter_consumer_secret">UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU</string>
     <string name="twitter_oauth">Twitter認証</string>
-    <string name="twitter_callback_url">gabu://twitter
-
-    </string>
+    <string name="twitter_callback_url">gabu://twitter</string>
+    <string name="twitter_callback_url2">home://twitter</string>
     <string name="a_name">kutimanko</string>
     <string name="_text">本文</string>
     <string name="menu_refresh">更新</string>
     <string name="menu_tweet">つぶやく</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
     <string-array name="item">
         <item>MyTweet</item>
         <item>Follows</item>

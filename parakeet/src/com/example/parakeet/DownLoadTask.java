@@ -5,76 +5,169 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
- *
+ * 
  * @author Yoshimori
- *
+ * 
  */
-public class DownLoadTask extends AsyncTask<String, Void, Drawable> {
+public class DownLoadTask {
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Field declaration
 	private ImageView imageView;
 	private String tag;
 
 	/**
-	 *
+	 * 
 	 * @param imageView
 	 */
 	public DownLoadTask(ImageView imageView) {
 
 		this.imageView = imageView;
-		this.tag = imageView.getTag().toString(); // substitution tag set ImageView for fieled
+		// substitution tag set
 
 	}
 
-	@Override
-	protected Drawable doInBackground(String... urls) {
-		// TODO 自動生成されたメソッド・スタブ
+	public void setThumn(final String urls) {
+		AsyncTask<Void, Void, Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
 
-		try {
+			@Override
+			protected Bitmap doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
 
-			Drawable image = ImageCache.getImage(urls[0]); //Creat image from cache
+				try {
 
-			if (image == null) {
+					Bitmap image = ImageCache.getImage(urls); // Creat image
+																// from
 
-				URL url = new URL(urls[0]);
-				image = Drawable.createFromStream((InputStream) url.getContent(), "");
-				ImageCache.setImage(urls[0], image);
+					tag = imageView.getTag().toString(); // ImageView for
+															// fieled// cache
+
+					if (image == null) {
+
+						URL url = new URL(urls);
+
+						BitmapControl control = new BitmapControl();
+
+						image = control.dedcodeBitmmapUrl(url);
+
+						ImageCache.setImage(urls, image);
+
+					}
+
+					return image;
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			protected void onPostExecute(Bitmap result) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				// メンバのタグと imageView にセットしたタグが一致すれば
+				// 画像をセットする
+				if (tag.equals(imageView.getTag())) {
+
+					if (result != null) {
+
+						imageView.setImageBitmap(result);
+						// layout.addView(imageView);
+					}
+				}
 
 			}
 
-			return image;
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		};
+		asyncTask.execute();
 	}
 
-	protected void onPostExecute(Drawable result) {
-		// TODO 自動生成されたメソッド・スタブ
+	public void setIcon(final String iconUrl) {
+		AsyncTask<Void, Void, Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
 
-		// メンバのタグと imageView にセットしたタグが一致すれば
-		// 画像をセットする
-		if (this.tag.equals(this.imageView.getTag())) {
+			@Override
+			protected Bitmap doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
 
-			if (result != null) {
+				try {
 
-				this.imageView.setVisibility(View.VISIBLE);
-				this.imageView.setImageDrawable(result);
+					URL url = new URL(iconUrl);
 
+					BitmapControl control = new BitmapControl();
+
+					Bitmap image = control.dedcodeBitmmapUrl(url);
+
+					return image;
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
 			}
-		}
 
+			protected void onPostExecute(Bitmap result) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				if (result != null) {
+
+					imageView.setImageBitmap(result);
+					// layout.addView(imageView);
+				}
+			}
+
+		};
+		asyncTask.execute();
 	}
-
+	/*
+	 * 
+	 * @Override Bitmap doInBackground(String... urls) { // TODO 自動生成されたメソッド・スタブ
+	 * 
+	 * try {
+	 * 
+	 * Bitmap image = ImageCache.getImage(urls[0]); // Creat image from // cache
+	 * 
+	 * if (image == null) {
+	 * 
+	 * URL url = new URL(urls[0]);
+	 * 
+	 * BitmapControl control = new BitmapControl();
+	 * 
+	 * image = control.dedcodeBitmmapUrl(url);
+	 * 
+	 * ImageCache.setImage(urls[0], image);
+	 * 
+	 * }
+	 * 
+	 * return image; } catch (MalformedURLException e) { // TODO Auto-generated
+	 * catch block e.printStackTrace(); } catch (IOException e) { // TODO
+	 * Auto-generated catch block e.printStackTrace(); } return null; }
+	 * 
+	 * protected void onPostExecute(Bitmap result) { // TODO 自動生成されたメソッド・スタブ
+	 * 
+	 * // メンバのタグと imageView にセットしたタグが一致すれば // 画像をセットする if
+	 * (this.tag.equals(this.imageView.getTag())) {
+	 * 
+	 * if (result != null) {
+	 * 
+	 * this.imageView.setImageBitmap(result); // layout.addView(imageView); } }
+	 * execute();
+	 * 
+	 * } }
+	 */
 }

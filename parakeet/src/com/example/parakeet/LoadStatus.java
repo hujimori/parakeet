@@ -139,7 +139,7 @@ public class LoadStatus {
 			protected List<twitter4j.Status> doInBackground(Void... params) {
 				try {
 					return mTwitter
-							.getHomeTimeline(new Paging(count).count(20));
+							.getHomeTimeline(new Paging(count).count(30));
 				} catch (TwitterException e) {
 					e.printStackTrace();
 				}

@@ -2,15 +2,19 @@ package com.example.parakeet;
 
 import java.text.SimpleDateFormat;
 
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.UserStreamAdapter;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.extras.listfragment.PullToRefreshListFragment;
@@ -35,8 +39,9 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	private static final int REQUEST_CODE = 1; // REQUEST_CODE
 	private static final int RESULT_CODE = 2; // RESULT_CODE'
 	public static int API_COUNT = 2; // API usage count
-	public static final String ARG_SECTION_NUMBER = "position_number"; // This fragmnet's tag
-																	
+	public static final String ARG_SECTION_NUMBER = "position_number"; // This
+																		// fragmnet's
+																		// tag
 
 	// ----------------------------------------------------------------------------------------------
 	// Field declaration
@@ -49,6 +54,8 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	private PullToRefreshListView mPullToRefreshListView;
 	private TwitterUpdate update;
 	private Bundle bundle;
+	private String url;
+	private String id;
 
 	/**
 	 * Factory method
@@ -73,17 +80,19 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 
 			// Create objects
 			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
-			mAdapter = new TweetAdapter(getActivity());
+			mAdapter = new TweetAdapter(getActivity(),
+					ListView.INVALID_POSITION);
 			mLoadStatus = new LoadStatus(mAdapter, mTwitter, getActivity());
 			myUserStreamAdapter = new MyUserStreamAdapter();
+			id = TwitterUtils.loadID(getActivity());
 
 			/**
 			 * Set ConsumerKey,ConsumerSecret AccessToken,AccessTokenSecret
 			 */
 			twitterStream = new TwitterStreamFactory().getInstance();
 			twitterStream.setOAuthConsumer(ConsumerKey, ConsumerSecret);
-			twitterStream.setOAuthAccessToken(TwitterUtils
-					.loadAccessToken(getActivity()));
+			twitterStream.setOAuthAccessToken(TwitterUtils.loadAccessToken(
+					getActivity(), id));
 
 			mLoadStatus.loadTimeLine();
 
@@ -105,9 +114,15 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		/**
 		 * Scroll setting
 		 */
-		getListView().setScrollingCacheEnabled(false);
-		getListView().setScrollbarFadingEnabled(true);
-		getListView().setFastScrollEnabled(true);
+		ListView listView = getListView();
+		listView.setScrollingCacheEnabled(false);
+		listView.setScrollbarFadingEnabled(true);
+		listView.setFastScrollEnabled(true);
+		listView.setDivider(null);
+		listView.setVerticalScrollBarEnabled(false);
+		listView.setSelector(android.R.color.transparent);
+		listView.addFooterView(LayoutInflater.from(getActivity()).inflate(
+				R.layout.item_footer, listView, false));
 
 		setListAdapter(mAdapter);
 
@@ -130,14 +145,19 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		 * Create intent and startActivity
 		 */
 		Intent intent = new Intent();
-		intent.putExtra("position", position);
-		intent.putExtra("statusId", status.getId());
-		intent.putExtra("screenname", status.getUser().getScreenName());
-		intent.putExtra("text", status.getText());
-		intent.putExtra("url", status.getUser().getBiggerProfileImageURL());
-		intent.putExtra("date", new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(status.getCreatedAt()));
-		intent.putExtra("name", status.getUser().getName());
+		StatusSerial serial = new StatusSerial(status);
+
+		intent.putExtra("serial", serial);
+		/*
+		 * intent.putExtra("position", position); intent.putExtra("statusId",
+		 * status.getId()); intent.putExtra("screenname",
+		 * status.getUser().getScreenName()); intent.putExtra("text",
+		 * status.getText()); intent.putExtra("url",
+		 * status.getUser().getBiggerProfileImageURL()); intent.putExtra("date",
+		 * new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+		 * .format(status.getCreatedAt())); intent.putExtra("name",
+		 * status.getUser().getName());
+		 */
 		intent.setClass(getActivity(), DetailedScreenActivity.class);
 		startActivityForResult(intent, REQUEST_CODE);
 
@@ -237,7 +257,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 							// TODO 自動生成されたメソッド・スタブ
 
 							mAdapter.insert(status, 0);
-
+						
 						}
 					});
 				}
@@ -245,5 +265,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 
 		}
 	}
-
 }
+
+	
+	

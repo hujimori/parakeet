@@ -10,9 +10,23 @@ public class ProfileData {
 	private Date date;
 	private Long ID;
 	private String url;
+	private String screenName;
+	
+	
 	
 	public ProfileData() {
 		
+	}
+	
+	
+	public void setScreenName(String screenName) {
+		
+		this.screenName = screenName;
+	}
+	
+	public String getScreenName() {
+		
+		return this.screenName;
 	}
 	
 	public void setIURL(String imageURL) {

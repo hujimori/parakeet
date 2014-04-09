@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 
 import android.sax.StartElementListener;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 import com.loopj.android.image.SmartImageView;
 
@@ -44,7 +46,8 @@ public class Profile extends FragmentActivity implements OnClickListener {
 	private TextView url;
 	private TextView entry;
 	private TextView id;
-	private Twitter mTwitter;;
+	private Twitter mTwitter;
+	private Button change;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -52,7 +55,7 @@ public class Profile extends FragmentActivity implements OnClickListener {
 		super.onCreate(arg0);
 		setContentView(R.layout.profile);
 
-		mTwitter = TwitterUtils.getTwitterInstance(this);
+	//	mTwitter = TwitterUtils.getTwitterInstance(this);
 
 		tweet = (Button) findViewById(R.id.tweet);
 		tweet.setOnClickListener(this);
@@ -66,6 +69,9 @@ public class Profile extends FragmentActivity implements OnClickListener {
 		favorites = (Button) findViewById(R.id.favorites);
 		favorites.setOnClickListener(this);
 
+		change = (Button) findViewById(R.id.change);
+	
+			
 		icon = (SmartImageView) findViewById(R.id.icon);
 		header = (SmartImageView) findViewById(R.id.header);
 		bio = (TextView) findViewById(R.id.bio_text);
@@ -88,29 +94,22 @@ public class Profile extends FragmentActivity implements OnClickListener {
 		switch (v.getId()) {
 
 		case R.id.tweet:
-		/*	intent = new Intent();
-			intent.setClass(this, UserTimeLine.class);
-			startActivityForResult(intent, REQUEST_CODE_1);
-			break;
-
-		case R.id.follows:
-			intent = new Intent();
-			intent.setClass(this, Follows.class);
-			startActivityForResult(intent, REQUSET_CODE_2);
-			break;
-
-		case R.id.followers:
-			intent = new Intent();
-			intent.setClass(this, Followers.class);
-			startActivityForResult(intent, REQUEST_CODE_3);
-			break;
-
-		case R.id.favorites:
-			intent = new Intent();
-			intent.setClass(this, Favorites.class);
-			startActivityForResult(intent, REQUEST_CODE_4);
-			break;
-*/
+			/*
+			 * intent = new Intent(); intent.setClass(this, UserTimeLine.class);
+			 * startActivityForResult(intent, REQUEST_CODE_1); break;
+			 * 
+			 * case R.id.follows: intent = new Intent(); intent.setClass(this,
+			 * Follows.class); startActivityForResult(intent, REQUSET_CODE_2);
+			 * break;
+			 * 
+			 * case R.id.followers: intent = new Intent(); intent.setClass(this,
+			 * Followers.class); startActivityForResult(intent, REQUEST_CODE_3);
+			 * break;
+			 * 
+			 * case R.id.favorites: intent = new Intent(); intent.setClass(this,
+			 * Favorites.class); startActivityForResult(intent, REQUEST_CODE_4);
+			 * break;
+			 */
 		}
 
 	}
@@ -221,5 +220,6 @@ class AsyncTaskLoader extends AsyncTask<Void, Void, ProfileData> {
 			}
 		}
 	}
+
 
 }
