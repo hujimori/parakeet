@@ -1,40 +1,30 @@
 package com.example.parakeet;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
-import com.handmark.pulltorefresh.library.R.string;
-import com.loopj.android.image.SmartImageView;
 
 import android.app.ActionBar;
-import android.app.ActionBar.Tab;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.net.wifi.p2p.WifiP2pManager.ActionListener;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerTabStrip;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -45,28 +35,29 @@ import android.widget.Toast;
  */
 public class MainActivity extends FragmentActivity {
 
-	// ----------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	// Field declaration
-	// ----------------------------------------------------------------------------------------------
+	// ---------------------------------------------------------------------------------------------
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private ActionBarDrawerToggle mToggle;
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
+	private Gson gson = new Gson();
+	private User user;
+	private ImageAdapter mAdapter;
 
-	// ----------------------------------------------------------------------------------------------
+	private static final String USER = "user";
+
+	private final int buttonImage = R.drawable.btn_radio_off_holo_dark;
+	// ---------------------------------------------------------------------------------------------
 	// Array declaration
-	// ----------------------------------------------------------------------------------------------
-	private int[] mImages = {
+	// ---------------------------------------------------------------------------------------------
+	private final int[] mImages = {
 
-	R.drawable.ic_menu_home, R.drawable.ic_menu_search,
-			R.drawable.ic_contact_picture, R.drawable.ic_sysbar_quicksettings };
+	R.drawable.ic_contact_picture, R.drawable.ic_sysbar_quicksettings };
 
-	private String[] mTitles = {
-
-	"Home", "Search", "Profile", "Setting"
-
-	};
+	private final String[] mTitles = { "Profile", "Setting" };
 
 	/**
 	 * Called when the activity is first created.
@@ -93,9 +84,9 @@ public class MainActivity extends FragmentActivity {
 
 				mActionBar.setHomeButtonEnabled(true);
 
-				setDrawerLayout();
+				setPager();
 
-				setTabs();
+				setDrawerLayout();
 
 				setListAdapter();
 
@@ -103,7 +94,10 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
-	private void setTabs() {
+	/**
+	 * Set tabs
+	 */
+	private void setPager() {
 
 		PagerTabStrip mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_tab);
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -119,39 +113,60 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
+	/**
+	 * 
+	 * Set list adapter
+	 */
 	private void setListAdapter() {
 
 		mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
 
 		List<BindData> objects = new ArrayList<BindData>();
+
+		SharedPreferences sharedPreferences = this.getSharedPreferences(USER,
+				Context.MODE_PRIVATE);
+
+		Map<String, ?> map = sharedPreferences.getAll();
+
+		BindData bindData;
+		/*
+		 * for (String key : map.keySet()) { user =
+		 * gson.fromJson(sharedPreferences.getString(key, null), User.class);
+		 * bindData = new BindData(user.screenName, buttonImage, false,
+		 * user.id); objects.add(bindData);
+		 * 
+		 * }
+		 */
 		for (int i = 0; i < mTitles.length; i++) {
-			BindData bindData = new BindData(mTitles[i], mImages[i]);
+			bindData = new BindData(mTitles[i], mImages[i]);
 			objects.add(bindData);
 		}
 
-		mDrawerList.setAdapter(new ImageAdapter(this, objects));
+		mAdapter = new ImageAdapter(this, objects);
+
+		mDrawerList.setAdapter(mAdapter);
 
 		mDrawerList.setOnItemClickListener(new DrawerListItemclickListener());
 	}
 
+	/**
+	 * Set drawer
+	 */
 	private void setDrawerLayout() {
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
 		mTitle = mDrawerTitle = getTitle();
 
-		String userData = TwitterUtils.loadStatus(this,
-				TwitterUtils.loadID(this));
-		Gson gson = new Gson();
-		User user = gson.fromJson(userData, User.class);
-
-		ImageView icon = (ImageView) findViewById(R.id.icon);
-
-		DownLoadTask task = new DownLoadTask(icon);
-		task.setIcon(user.profileImageUrl);
-
-		// SmartImageView header = (SmartImageView) findViewById(R.id.header);
-		// header.setImageUrl(user.profileBannerUrl);
+		ClipImageView icon = (ClipImageView) findViewById(R.id.icon);
+		BitmapControl bitmapControl = new BitmapControl();
+		String url = TwitterUtils.loadUserIcon(this, TwitterUtils.loadID(this));
+		bitmapControl.roundBitmap(this, url, icon);
+		TextView textView = (TextView) findViewById(R.id.text);
+		user = gson.fromJson(
+				TwitterUtils.loadUser(this),
+				User.class);
+		textView.setText(user.name);
 
 		mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.open, R.string.close) {
@@ -175,6 +190,15 @@ public class MainActivity extends FragmentActivity {
 			}
 
 		};
+
+		icon.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO 自動生成されたメソッド・スタブ
+				showAccount();
+			}
+		});
 
 		mDrawerLayout.setDrawerListener(mToggle);
 	}
@@ -200,10 +224,11 @@ public class MainActivity extends FragmentActivity {
 		switch (item.getItemId()) {
 		case R.id.menu_edit:
 			showTweetDialog();
+			break;
 
-		case R.id.menu_profile:
+		case R.id.menu_serach:
 			showAccount();
-
+			break;
 		}
 		if (mToggle.onOptionsItemSelected(item)) {
 			return true;
@@ -235,33 +260,34 @@ public class MainActivity extends FragmentActivity {
 		accountView.show(getSupportFragmentManager(), "accountView");
 
 	}
-
+	
 	class DrawerListItemclickListener implements OnItemClickListener {
+
+		private int pos;
 
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO 自動生成されたメソッド・スタブ
 
-			selectItem(position);
+			selectItem(position, id);
 
 		}
 
-		private void selectItem(int position) {
+		private void selectItem(int position, long id) {
 
 			Intent intent = new Intent();
 
 			switch (position) {
 
 			case 0:
-
-			case 2:
-
 				intent.setClass(MainActivity.this, Profile.class);
 				startActivity(intent);
+				break;
 
-				mDrawerList.setItemChecked(position, true);
-				setTitle(mTitles[position]);
-				mDrawerLayout.closeDrawer(mDrawerList);
+			case 1:
+				intent.setClass(MainActivity.this, Prefrence.class);
+				startActivity(intent);
+				break;
 
 			}
 		}

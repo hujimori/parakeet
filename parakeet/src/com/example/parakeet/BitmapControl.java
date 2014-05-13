@@ -1,26 +1,19 @@
 package com.example.parakeet;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
-
-import com.handmark.pulltorefresh.extras.listfragment.R.string;
-
 import android.content.Context;
-import android.graphics.AvoidXfermode.Mode;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
+
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.media.MediaRecorder.OutputFormat;
-import android.net.Uri;
-import android.provider.OpenableColumns;
+import android.os.AsyncTask;
+import android.widget.Toast;
 
 public class BitmapControl {
 
@@ -31,7 +24,6 @@ public class BitmapControl {
 	// ----------------------------------------------------------------------------------------------
 	// Field Declaration
 	// ----------------------------------------------------------------------------------------------
-	private String filePath;
 	private int srcWidth;
 	private int srcHeight;
 	private int baseSize = 128;
@@ -39,16 +31,28 @@ public class BitmapControl {
 	private Matrix matrix;
 	private Bitmap bitmap;
 
-	public BitmapControl(String filePath) {
-
-		this.filePath = filePath;
-
-	}
+	/**
+	 * 
+	 * @param filePath
+	 */
+	/*
+	 * public BitmapControl(String filePath) {
+	 * 
+	 * this.filePath = filePath;
+	 * 
+	 * }
+	 */
 
 	public BitmapControl() {
 
 	}
 
+	/**
+	 * decode bitmap from url
+	 * 
+	 * @param url
+	 * @return
+	 */
 	public Bitmap dedcodeBitmmapUrl(URL url) {
 
 		try {
@@ -73,12 +77,12 @@ public class BitmapControl {
 			options.inJustDecodeBounds = false;
 
 			InputStream ris = url.openStream();
-			
+
 			bitmap = BitmapFactory.decodeStream(ris, null, options);
 
-			Bitmap thum = makeBitmap(bitmap, thumnSize);
+			Bitmap thumnail = makeBitmap(bitmap, thumnSize);
 
-			return thum;
+			return thumnail;
 
 		} catch (IOException e) {
 			// TODO 自動生成された catch ブロック
@@ -89,32 +93,40 @@ public class BitmapControl {
 
 	}
 
-	public Bitmap decodeBitmap() {
-
-		BitmapFactory.Options options = new BitmapFactory.Options();
-
-		options.inJustDecodeBounds = true;
-
-		BitmapFactory.decodeFile(filePath, options);
-
-		srcWidth = options.outWidth;
-		srcHeight = options.outHeight;
-
-		if (srcWidth < srcHeight) {
-			options.inSampleSize = srcHeight / baseSize;
-		} else {
-			options.inSampleSize = srcWidth / baseSize;
-		}
-
-		options.inJustDecodeBounds = false;
-
-		bitmap = BitmapFactory.decodeFile(filePath, options);
-
-		Bitmap tmp = makeBitmap(bitmap, baseSize);
-
-		return tmp;
-	}
-
+	/**
+	 * decode bitmap from filepath
+	 * @param filePath
+	 * @return
+	 */
+	  public Bitmap decodeBitmap(String filePath) {
+	  
+	  BitmapFactory.Options options = new BitmapFactory.Options();
+	  
+	  options.inJustDecodeBounds = true;
+	  
+	  BitmapFactory.decodeFile(filePath, options);
+	  
+	  srcWidth = options.outWidth; srcHeight = options.outHeight;
+	  
+	  if (srcWidth < srcHeight) { options.inSampleSize = srcHeight / baseSize;
+	  } else { options.inSampleSize = srcWidth / baseSize; }
+	  
+	  options.inJustDecodeBounds = false;
+	  
+	  bitmap = BitmapFactory.decodeFile(filePath, options);
+	  
+	  Bitmap tmp = makeBitmap(bitmap, baseSize);
+	  
+	  return tmp; 
+	  }
+	 
+	
+	/**
+	 * make bitmap
+	 * @param src
+	 * @param size
+	 * @return
+	 */
 	private Bitmap makeBitmap(Bitmap src, int size) {
 
 		matrix = new Matrix();
@@ -140,6 +152,50 @@ public class BitmapControl {
 		canvas.drawBitmap(src, matrix, paint);
 
 		return dest;
+	}
+
+	public void roundBitmap(final Context context, final String imageUrl,
+			final ClipImageView clipImageView) {
+
+		AsyncTask<Void, Void, Bitmap> task = new AsyncTask<Void, Void, Bitmap>() {
+
+			@Override
+			protected Bitmap doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				try {
+					// create bitmap from url
+					URL url = new URL(imageUrl);
+					InputStream is = url.openStream();
+					Bitmap image = BitmapFactory.decodeStream(is);
+					return image;
+				} catch (IOException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+
+				return null;
+
+			}
+
+			@Override
+			protected void onPostExecute(Bitmap image) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(image);
+
+				if (image != null) {
+
+					clipImageView.setImageBitmap(image);
+					
+
+				} else {
+					Toast.makeText(context, "null", Toast.LENGTH_SHORT).show();
+				}
+			}
+
+		};
+		task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
 	}
 
 	public static void saveProfileIcon(Context mContext, String name, Bitmap bmp) {

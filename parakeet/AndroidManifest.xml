@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -47,6 +48,9 @@
         <activity android:name=".DetailedScreenActivity" />
         <activity android:name=".Profile" />
         <activity android:name=".AccountPreferenceActivity" />
+        <activity android:name=".Prefrence" />
+        <activity android:name=".MutePreference"></activity>
+        <activity android:name=".ShowTweetActivity"></activity>
         <activity
             android:name=".IntentActivity"
             android:launchMode="singleTask" >
@@ -59,7 +63,7 @@
                 <data
                     android:host="twitter"
                     android:scheme="home" />
- />
+ />
             </intent-filter>
         </activity>
     </application>

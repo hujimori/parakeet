@@ -95,9 +95,9 @@ public class TweetView extends DialogFragment {
 		imageView = (ImageView) view.findViewById(R.id.image);
 		imageView.setVisibility(View.GONE);
 
-		icon = (ImageView) view.findViewById(R.id.icon);
-		icon.setImageBitmap(BitmapControl.loadProfileIcon("icon1",
-				getActivity()));
+		//icon = (ImageView) view.findViewById(R.id.icon);
+		//icon.setImageBitmap(BitmapControl.loadProfileIcon("icon1",
+			//	getActivity()));
 
 		button = (Button) view.findViewById(R.id.button);
 
@@ -140,7 +140,7 @@ public class TweetView extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO 自動生成されたメソッド・スタブ
-			//	mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+				mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
 				update = new TwitterUpdate(mTwitter, getActivity());
 
@@ -199,9 +199,9 @@ public class TweetView extends DialogFragment {
 					return;
 				}
 
-				BitmapControl control = new BitmapControl(filePath);
+				BitmapControl control = new BitmapControl();
 
-				Bitmap bitmap = control.decodeBitmap();
+				Bitmap bitmap = control.decodeBitmap(filePath);
 
 				// layout = (LinearLayout) view.findViewById(R.id.parent);
 

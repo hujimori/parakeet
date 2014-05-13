@@ -131,7 +131,7 @@ public class TwitterUpdate {
 		task.execute();
 	}
 
-	public void favorite(final Long statusId, final TweetAdapter mAdapter, final int position, final Status status) {
+	public void favorite(final Long statusId, final StatusAdapter mAdapter, final int position, final Status status) {
 		AsyncTask<Void, Void, twitter4j.Status> task = new AsyncTask<Void, Void, twitter4j.Status>() {
 			@Override
 			protected twitter4j.Status doInBackground(Void... params) {

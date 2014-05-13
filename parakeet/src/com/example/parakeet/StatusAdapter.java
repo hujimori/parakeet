@@ -1,13 +1,8 @@
 package com.example.parakeet;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.regex.Pattern;
-
 import twitter4j.MediaEntity;
 import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.User;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.app.Activity;
@@ -18,10 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
+public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 
 	private class ViewHolder {
 		TextView screenName;
@@ -36,25 +30,16 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 	private LayoutInflater mInflater;
 	private ViewHolder mViewHolder;
 	private CharSequence charSequence;
-	private int background;
 	private Context mContext;
-	private Pattern urlPattern = Pattern.compile(
-			"(http://|https://){1}[\\w\\.\\-/:\\#\\?\\=\\&\\;\\%\\~\\+]+",
-			Pattern.CASE_INSENSITIVE);
 	private String url;
-	private int mAnimatedPosition;
-	private User user;
-	private LinearLayout layout;
-	private ImageView imageView;
-	private View convertView;
+	
 
-	public TweetAdapter(Context mContext, int mAnimatedPosition) {
+	public StatusAdapter(Context mContext) {
 		super(mContext, android.R.layout.simple_list_item_1);
 
 		this.mContext = mContext;
 
-		this.mAnimatedPosition = mAnimatedPosition;
-		mInflater = (LayoutInflater) mContext
+		mInflater = (LayoutInflater) this.mContext
 				.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
 	}
@@ -94,29 +79,7 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 			mViewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		/*
-		 * if (status.isFavorited()) {
-		 * 
-		 * mViewHolder.favIcon
-		 * .setImageResource(R.drawable.btn_rating_star_on_disabled_holo_light);
-		 * } else {
-		 * 
-		 * mViewHolder.favIcon
-		 * .setImageResource(R.drawable.btn_rating_star_off_disabled_holo_light
-		 * );
-		 * 
-		 * }
-		 */
-		/*
-		 * if (status.isRetweet()) { background =
-		 * R.drawable.status_item_background_other; } else { background =
-		 * R.drawable.status_item_background_me;
-		 * 
-		 * }
-		 */
-
-		// convertView.setBackground(mContext.getResources().getDrawable(
-		// background));
+		
 
 		mViewHolder.screenName.setText("@" + status.getUser().getScreenName()
 				+ "/" + status.getUser().getName());
@@ -136,7 +99,6 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 		mViewHolder.thumn.setVisibility(View.GONE);
 
-		startItemAnimation(position, convertView);
 
 		MediaEntity[] entities = status.getMediaEntities();
 		if (entities != null) {
@@ -156,31 +118,7 @@ public class TweetAdapter extends ArrayAdapter<twitter4j.Status> {
 
 	}
 
-	private void startItemAnimation(int position, View convertView) {
-
-		if (mAnimatedPosition < position) {
-
-			Animator animator = AnimatorInflater.loadAnimator(mContext,
-					R.anim.card_anim);
-
-			animator.setTarget(convertView);
-
-			animator.start();
-
-			mAnimatedPosition = position;
-		}
-	}
-
-	public void startItemAddAnimation(Status status) {
-
-		if (getPosition(status) == 0) {
-			Animator animator = AnimatorInflater.loadAnimator(mContext,
-					R.anim.item_add_anim);
-
-			animator.setTarget(this.convertView);
-
-			animator.start();
-		}
-	}
+	
+	
 
 }

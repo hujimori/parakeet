@@ -8,7 +8,10 @@ public class User {
 	String profileImageUrl;
 	String location;
 	String profileBannerUrl;
-	String biggerProfileImageUrl;
-	String profileBackgroundImageUrl;
+	String profileBannerurl;
+	String favorites_count;
+	String followers_count;
+	String friends_count;
+	String statuses_count;
 	twitter4j.User user;
 }

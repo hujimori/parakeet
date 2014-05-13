@@ -2,6 +2,7 @@ package com.example.parakeet;
 
 import java.util.List;
 
+import com.example.parakeet.Profile.Fragment1;
 import com.loopj.android.image.SmartImageView;
 
 import android.app.Activity;
@@ -19,41 +20,27 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AccountViewAdapter extends ArrayAdapter<AppData> {
+public class AccountViewAdapter extends ArrayAdapter<BindData> {
 
-	private List<AppData> appList = null;
 	private LayoutInflater mInflater;
 	private ViewHolder mViewHolder;
 	private Context mContext;
-	private AppData appData;
 	private int backgroundDrawable;
 
-	public AccountViewAdapter(Context context, int resourceId,
-			List<AppData> appList) {
+	public AccountViewAdapter(Context context, List<BindData> appList) {
 
-		super(context, resourceId, appList);
+		super(context, 0, appList);
 
 		this.mContext = context;
-		this.appList = appList;
 
 		// TODO 自動生成されたコンストラクター・スタブ
-	}
-
-	@Override
-	public int getCount() {
-		return appList.size();
-	}
-
-	@Override
-	public AppData getItem(int position) {
-		return appList.get(position);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO 自動生成されたメソッド・スタブ
 
-		appData = (AppData) getItem(position);
+		BindData bindData = (BindData) getItem(position);
 
 		if (convertView == null) {
 
@@ -63,15 +50,13 @@ public class AccountViewAdapter extends ArrayAdapter<AppData> {
 
 			mViewHolder = new ViewHolder();
 
-			mViewHolder.smartImageView = (SmartImageView) convertView
-					.findViewById(R.id.image);
-
-			mViewHolder.imageView = (ImageView) convertView
-					.findViewById(R.id.radiobutton);
 			mViewHolder.textView = (TextView) convertView
 					.findViewById(R.id.textview);
+			
+			mViewHolder.imageView = (ImageView) convertView.findViewById(R.id.radiobutton);
 
 			convertView.setTag(mViewHolder);
+	
 		}
 
 		else {
@@ -79,20 +64,21 @@ public class AccountViewAdapter extends ArrayAdapter<AppData> {
 			mViewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		mViewHolder.smartImageView.setImageUrl(appData.getUrl());
+	//	 mViewHolder.smartImageView.setImageUrl(bindData.getUrl());
 
-		mViewHolder.textView.setText(TwitterUtils.loadID(mContext) + "/"
-				+ appData.getId());
+		mViewHolder.textView.setText(bindData.getText());
 
-		if (TwitterUtils.loadID(mContext).equals(appData.getId())) {
+		if (TwitterUtils.loadID(mContext).equals(bindData.getId())) {
 
-			mViewHolder.textView.setText(appData.getScreenName());
-			appData.setIsChecked(true);
-			mViewHolder.imageView.setImageResource(R.drawable.btn_radio_on_pressed_holo_dark);
+			
+			bindData.setIsChecked(true);
+			mViewHolder.imageView
+					.setImageResource(R.drawable.btn_radio_on_pressed_holo_dark);
 
 		} else {
-			appData.setIsChecked(false);
-			mViewHolder.imageView.setImageResource(R.drawable.btn_radio_off_pressed_holo_dark);
+			bindData.setIsChecked(false);
+			mViewHolder.imageView
+					.setImageResource(R.drawable.btn_radio_off_pressed_holo_dark);
 
 		}
 

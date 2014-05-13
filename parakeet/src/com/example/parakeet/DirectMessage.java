@@ -5,26 +5,29 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
 /**
- *
+ * 
  * @author Yoshimori
- *
+ * 
  */
 public class DirectMessage extends ListFragment {
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Constant declaration
-	//----------------------------------------------------------------------------------------------
-	public static final String ARG_SECTION_NUMBER = "position_number"; // This fragment's tag
+	// ----------------------------------------------------------------------------------------------
+	public static final String ARG_SECTION_NUMBER = "position_number"; // This
+																		// fragment's
+																		// tag
 
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	// Field declaration
-	//----------------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------------
 	private DirectMessageAdapter directMessageAdapter;
 	private Twitter mTwitter;
 	private LoadStatus loadStatus;
 
 	/**
 	 * Factory method
+	 * 
 	 * @param position
 	 * @return fragment object
 	 */
@@ -50,9 +53,9 @@ public class DirectMessage extends ListFragment {
 
 			directMessageAdapter = new DirectMessageAdapter(getActivity());
 
-	//		mTwitter = TwitterUtils.getTwitterInstance(getActivity());
+			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
-			loadStatus = new LoadStatus(directMessageAdapter, mTwitter, getActivity());
+			loadStatus = new LoadStatus(directMessageAdapter, getActivity());
 			loadStatus.loadDirectMessage();
 		}
 	}

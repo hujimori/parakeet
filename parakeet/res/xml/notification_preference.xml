@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="REPLY通知" >
+        <CheckBoxPreference
+            android:key="REPLY_SOUND"
+            android:summary="REPLYを通知します"
+            android:title="REPLY通知" />
+        <CheckBoxPreference 
+            android:key="REPLY_VIBE"
+            android:summary="REPLY時にバイブレーションします"
+            android:title="REPLYバイブ"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="RT通知" >
+        <CheckBoxPreference
+            android:key="RETWEET_SOUND"
+            android:summary="RTを通知します"
+            android:title="RT通知" />
+        <CheckBoxPreference 
+                        android:key="RT_VIBE"
+            android:summary="RT時にバイブレーションします"
+            android:title="RTバイブ"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="FAVORITE追加通知" >
+        <CheckBoxPreference
+            android:key="FAVORITE_REGISTRATION_SOUND"
+            android:summary="FAVORITEに追加されたら通知します"
+            android:title="FAVORITE通知" />
+        <CheckBoxPreference 
+            android:key="FAVORITE_REGISTRATION_VIBE"
+            android:summary="FAVORITE追加時にバイブレーションします"
+            android:title="FAVORITE追加バイブ"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="FAVORITE解除通知" >
+        <CheckBoxPreference
+            android:key="FAVORITE_RELEASE"
+            android:summary="FAVOTRITEが解除されたら通知します"
+            android:title="FAVORITE解除通知" />
+        <CheckBoxPreference 
+            android:key="FAVORITE_RELEASE_VIBE"
+            android:summary="FAVORITE解除時にバイブレーションします"
+            android:title="FAVORITE解除バイブ"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,49 @@
+package com.example.parakeet;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.util.AttributeSet;
+import android.widget.ImageView;
+
+/**
+ * 
+ * @author Yoshimori
+ *
+ */
+public class ClipImageView extends ImageView {
+
+	private int radius = 0;
+	private Path path = new Path();
+
+	
+	
+	
+	public ClipImageView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+	public ClipImageView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+	public ClipImageView(Context context) {
+		super(context);
+		// TODO 自動生成されたコンストラクター・スタブ
+	}
+
+	
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+
+		path.addCircle(w / 2, h / 2, 140, Path.Direction.CCW);
+		
+	}
+
+	protected void onDraw(Canvas canvas) {
+		canvas.clipPath(path);
+
+		super.onDraw(canvas);
+	}
+
+}

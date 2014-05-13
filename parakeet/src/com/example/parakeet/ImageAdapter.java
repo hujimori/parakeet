@@ -1,7 +1,6 @@
 package com.example.parakeet;
 
 import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,28 +9,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-class BindData {
-
-	String text;
-	int imageResourceId;
-
-	public BindData(String text, int id) {
-
-		this.text = text;
-		this.imageResourceId = id;
-
-	}
-}
-
+/**
+ * 
+ * @author Yoshimori
+ *
+ */
 public class ImageAdapter extends ArrayAdapter<BindData> {
 
-	private LayoutInflater inflater;
+	private class ViewHolder {
+		public TextView mTextView;
+		public ImageView mImageView;
+	}
+
+	private LayoutInflater mInflater;
 	private ViewHolder mViewHolder;
+	private Context mContext;
 
 	public ImageAdapter(Context mContext, List<BindData> objects) {
 		super(mContext, 0, objects);
 
-		this.inflater = (LayoutInflater) mContext
+		this.mContext = mContext;
+		this.mInflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 	}
@@ -44,15 +42,15 @@ public class ImageAdapter extends ArrayAdapter<BindData> {
 
 		if (convertView == null) {
 
-			convertView = inflater.inflate(R.layout.custom_list_item, parent,
+			convertView = mInflater.inflate(R.layout.custom_list_item, parent,
 					false);
 
 			mViewHolder = new ViewHolder();
 
-			mViewHolder.textView = (TextView) convertView
+			mViewHolder.mTextView = (TextView) convertView
 					.findViewById(R.id.text);
 
-			mViewHolder.imageView = (ImageView) convertView
+			mViewHolder.mImageView = (ImageView) convertView
 					.findViewById(R.id.iamgeview);
 
 			convertView.setTag(mViewHolder);
@@ -62,9 +60,23 @@ public class ImageAdapter extends ArrayAdapter<BindData> {
 			mViewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		mViewHolder.textView.setText(data.text);
+		mViewHolder.mTextView.setText(data.getText());
 
-		mViewHolder.imageView.setImageResource(data.imageResourceId);
+		mViewHolder.mImageView.setImageResource(data.getResourceId());
+
+		if (data.getId() != null
+				&& TwitterUtils.loadID(mContext).equals(data.getId())) {
+
+			data.setIsChecked(true);
+			mViewHolder.mImageView
+					.setImageResource(R.drawable.btn_radio_on_pressed_holo_dark);
+
+		} else if (data.getId() != null
+				&& !TwitterUtils.loadID(mContext).equals(data.getId())) {
+
+			data.setIsChecked(false);
+
+		}
 
 		return convertView;
 

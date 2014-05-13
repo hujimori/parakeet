@@ -46,21 +46,31 @@
                 android:background="#000000" >
             </com.loopj.android.image.SmartImageView>
 
-            <ImageView
+            <com.example.parakeet.ClipImageView
                 android:id="@+id/icon"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
-                android:background="@drawable/icon_frame"/>
+                android:background="@drawable/icon_frame" >
+            </com.example.parakeet.ClipImageView>
 
-           </FrameLayout>
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_gravity="center_horizontal|bottom" />
+        </FrameLayout>
+        
+      
 
         <ListView
             android:id="@+id/left_drawer_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#111"
+            android:background="#d3d3d3"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp" />

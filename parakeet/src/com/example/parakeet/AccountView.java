@@ -1,9 +1,7 @@
 package com.example.parakeet;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import twitter4j.Twitter;
@@ -14,11 +12,8 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -28,9 +23,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -46,6 +39,8 @@ public class AccountView extends DialogFragment {
 	private Twitter twitter;
 	private RequestToken mRequestToken;
 	private int check = 0;
+	
+	private final String USER = "user";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,33 +62,30 @@ public class AccountView extends DialogFragment {
 
 		twitter.setOAuthConsumer(consumerKey, consumerSecret);
 
-		mAdapter = new AccountViewAdapter(getActivity(), 0,
-				new ArrayList<AppData>());
+	
+		SharedPreferences sharedPreferences = getActivity().getSharedPreferences(USER, Context.MODE_PRIVATE);
+		
 
-		SharedPreferences sp = PreferenceManager
-				.getDefaultSharedPreferences(getActivity());
+		Map<String, ?> map = sharedPreferences.getAll();
 
-		Map<String, ?> map = sp.getAll();
-
+		List<BindData> objects = new ArrayList<BindData>();
+		
+		BindData bindData;
+		
 		for (String key : map.keySet()) {
 
 			Gson gson = new Gson();
-			User user = gson.fromJson(sp.getString(key, null), User.class);
+			User user = gson.fromJson(sharedPreferences.getString(key, null), User.class);
 
-			AppData appData = new AppData();
-
-			appData.setScreenName(user.screenName);
-			appData.setUrl(user.profileBannerUrl);
-			appData.setId(user.id);
-			appData.setIsChecked(false);
-
-			mAdapter.add(appData);
+			bindData = new BindData(user.screenName, false, user.id);
+			
+			objects.add(bindData);
 		}
-
 		
+		mAdapter = new AccountViewAdapter(getActivity(), objects);
+
 		listView.setAdapter(mAdapter);
 
-	
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -102,10 +94,11 @@ public class AccountView extends DialogFragment {
 				// TODO 自動生成されたメソッド・スタブ
 				for (int i = 0; i < mAdapter.getCount(); i++) {
 					if (mAdapter.getItemId(i) == id) {
-						//mAdapter.getItem(i).setIsChecked(true);
-						TwitterUtils.saveID(getActivity(), mAdapter.getItem(i).getId());
+						// mAdapter.getItem(i).setIsChecked(true);
+						TwitterUtils.saveID(getActivity(), mAdapter.getItem(i)
+								.getId());
 					} else {
-						//mAdapter.getItem(i).setIsChecked(false);
+						// mAdapter.getItem(i).setIsChecked(false);
 					}
 				}
 

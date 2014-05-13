@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class TwitterOAuthActivity extends Activity {
@@ -24,22 +26,35 @@ public class TwitterOAuthActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_twitter_oauth);
 
-		mCallBackURL = getString(R.string.twitter_callback_url);
-		mTwitter = TwitterUtils.getTwitterInstance(this);
-
-		findViewById(R.id.action_start_oauth).setOnClickListener(new View.OnClickListener() {
+		Button button = (Button) findViewById(R.id.button);
+		button.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				// TODO �����������ꂽ���\�b�h�E�X�^�u
-				startAuthorize();
-
+				// TODO 自動生成されたメソッド・スタブ
+				Intent intent = new Intent(TwitterOAuthActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
 			}
-
 		});
+
+		mCallBackURL = getString(R.string.twitter_callback_url);
+		mTwitter = TwitterUtils.getTwitterInstance(this);
+
+		findViewById(R.id.action_start_oauth).setOnClickListener(
+				new View.OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO �����������ꂽ���\�b�h�E�X�^�u
+						startAuthorize();
+
+					}
+
+				});
 	}
 
-	//OAuth�F�؁i�����ɂ͔F�j���J�n���܂��B
+	// OAuth�F�؁i�����ɂ͔F�j���J�n���܂��B
 
 	private void startAuthorize() {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
@@ -52,8 +67,7 @@ public class TwitterOAuthActivity extends Activity {
 					mRequestToken = mTwitter.getOAuthRequestToken(mCallBackURL);
 
 					return mRequestToken.getAuthorizationURL();
-				}
-				catch (TwitterException e) {
+				} catch (TwitterException e) {
 					e.printStackTrace();
 				}
 
@@ -62,12 +76,12 @@ public class TwitterOAuthActivity extends Activity {
 
 			public void onPostExecute(String url) {
 				if (url != null) {
-					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					Intent intent = new Intent(Intent.ACTION_VIEW,
+							Uri.parse(url));
 
 					startActivity(intent);
-				}
-				else {
-					//���s
+				} else {
+					// ���s
 				}
 			}
 
@@ -77,7 +91,8 @@ public class TwitterOAuthActivity extends Activity {
 	}
 
 	public void onNewIntent(Intent intent) {
-		if (intent == null || intent.getData() == null || !intent.getData().toString().startsWith(mCallBackURL)) {
+		if (intent == null || intent.getData() == null
+				|| !intent.getData().toString().startsWith(mCallBackURL)) {
 			return;
 		}
 		String verifier = intent.getData().getQueryParameter("oauth_verifier");
@@ -85,10 +100,10 @@ public class TwitterOAuthActivity extends Activity {
 		AsyncTask<String, Void, AccessToken> task = new AsyncTask<String, Void, AccessToken>() {
 			protected AccessToken doInBackground(String... params) {
 				try {
-					return mTwitter.getOAuthAccessToken(mRequestToken, params[0]);
+					return mTwitter.getOAuthAccessToken(mRequestToken,
+							params[0]);
 
-				}
-				catch (TwitterException e) {
+				} catch (TwitterException e) {
 					e.printStackTrace();
 				}
 				return null;
@@ -96,17 +111,17 @@ public class TwitterOAuthActivity extends Activity {
 
 			protected void onPostExecute(AccessToken accessToken) {
 				if (accessToken != null) {
-					//�F�ؐ���
+					// �F�ؐ���
 
 					showToast("認証に成功しました");
 					successOAuth(accessToken);
-				}
-				else {
+				} else {
 					showToast("認証に失敗しました");
 				}
 			}
 		};
-		task.execute(verifier);
+		// task.execute(verifier);
+		task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, verifier);
 
 	}
 
@@ -114,9 +129,8 @@ public class TwitterOAuthActivity extends Activity {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		TwitterUtils.saveID(this, String.valueOf(accessToken.getUserId()));
 		TwitterUtils.storeAccessToken(this, accessToken);
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
-		finish();
+		TwitterUtils.saveUserData(this, TwitterUtils.loadID(this));
+
 	}
 
 	private void showToast(String text) {

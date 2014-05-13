@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="設定" >
+        <PreferenceScreen
+            android:fragment="com.example.parakeet.NotificationPreference"
+            android:summary="通知に関する設定を編集します"
+            android:title="通知" >
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:key="mute"
+            android:summary="ミュートに関する設定を編集をします"
+            android:title="ミュート" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.example.parakeet.MutePreference"
+                android:targetPackage="com.example.parakeet" >
+            </intent>
+        </PreferenceScreen>
+        <PreferenceScreen
+            android:summary="カラムに関する設定を編集します"
+            android:title="カラム" >
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

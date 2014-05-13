@@ -7,137 +7,27 @@
     <FrameLayout
         android:id="@+id/framelayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0" >
+        android:layout_height="180dp" >
 
         <com.loopj.android.image.SmartImageView
             android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="180dp"
+            android:alpha="0.5" />
 
-        <com.loopj.android.image.SmartImageView
-            android:id="@+id/icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_contact_picture" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="180dp" >
+        </android.support.v4.view.ViewPager>
     </FrameLayout>
 
-    <ScrollView
-        android:id="@+id/scrollview"
+    
+    
+    <ListView
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:id="@+id/linearlayout1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center" >
-
-                <Button
-                    android:id="@+id/tweet"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tweets" />
-
-                <Button
-                    android:id="@+id/follows"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Folows" />
-
-                <Button
-                    android:id="@+id/followers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Followers" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearlayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center" >
-
-                <Button 
-                    android:id="@+id/change"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="change"/>
-                
-                <Button
-                    android:id="@+id/favorites"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Favorites" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:text="自己紹介:" />
-
-            <TextView
-                android:id="@+id/bio_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
-
-            <TextView
-                android:id="@+id/URL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="48dp"
-                android:text="URL:" />
-
-            <TextView
-                android:id="@+id/URL_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
-
-            <TextView
-                android:id="@+id/entry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="48dp"
-                android:text="登録日:" />
-
-            <TextView
-                android:id="@+id/entryday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp" />
-
-            <TextView
-                android:id="@+id/userId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="48dp"
-                android:text="ID:" />
-
-            <TextView
-                android:id="@+id/Id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent" >
+    </ListView>
 
 </LinearLayout>

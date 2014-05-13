@@ -26,6 +26,7 @@ public class ViewHolder {
 	public LinearLayout layout;
 	public ImageView thum2;
 	public RadioButton radioButton;
+	public TextView count;
 
 
 }
