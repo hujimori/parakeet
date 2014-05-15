@@ -22,7 +22,7 @@ public class ListTimeLineFragment extends ListFragment {
 		
 		StatusAdapter mAdapter = new StatusAdapter(getActivity());
 		LoadStatus loadStatus = new LoadStatus(mAdapter, getActivity());
-		loadStatus.loadListTimeLine(getArguments().getLong("LIST_ID"));
+	//loadStatus.loadListTimeLine(getArguments().getLong("LIST_ID"));
 		setListAdapter(mAdapter);
 		
 	}
