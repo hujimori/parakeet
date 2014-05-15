@@ -36,30 +36,30 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		OnRefreshListener2<ListView> {
 
 	// ---------------------------------------------------------------------------------------------
-	// Constant declaration
+	// class field declaration
 	// ---------------------------------------------------------------------------------------------
-	private static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
-	private static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
-	private static final int REQUEST_CODE = 1; // REQUEST_CODE
-	private static final int RESULT_CODE = 2; // RESULT_CODE'
-	public static final String ARG_SECTION_NUMBER = "position_number"; // fragment
-																		// tag
+	public static final String ARG_SECTION_NUMBER = "position_number"; 
+	public static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
+	public static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
+	public static final int REQUEST_CODE = 1; // REQUEST_CODE
+	public static final int RESULT_CODE = 2; // RESULT_CODE'
+																	
 
 	// ---------------------------------------------------------------------------------------------
-	// Field declaration
+	// instance field 
 	// ---------------------------------------------------------------------------------------------
-	private LoadStatus mLoadStatus;
+	private LoadStatus loadStatus;
 	private PullToRefreshListView mPullToRefreshListView;
 	private TwitterUpdate update;
 	private Bundle bundle;
-	private Twitter mTwitter;
-	private StatusAdapter mAdapter;
+	private Twitter twitter;
+	private StatusAdapter adapter;
 	private Status status;
-	private Context mContext;
+	private Context context;
 	private SharedPreferences sharedPreferences;
 	private Vibrator vibrator;
 	private com.example.parakeet.User user;
-
+	
 	/**
 	 * Factory method
 	 * 
@@ -68,46 +68,10 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	 */
 	public static HomeTimeLine getInstance(int position) {
 		HomeTimeLine hm = new HomeTimeLine();
-		Bundle bundle = new Bundle();
-		bundle.putInt(ARG_SECTION_NUMBER, position);
-		hm.setArguments(bundle);
+		Bundle mBundle = new Bundle();
+		mBundle.putInt(ARG_SECTION_NUMBER, position);
+		hm.setArguments(mBundle);
 		return hm;
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO 自動生成されたメソッド・スタブ
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-
-			mContext = getActivity();
-
-			mAdapter = new StatusAdapter(mContext);
-
-			vibrator = (Vibrator) mContext
-					.getSystemService(Context.VIBRATOR_SERVICE);
-
-			mLoadStatus = new LoadStatus(mAdapter, mContext);
-			mLoadStatus.loadTimeLine();
-
-			startUserStream();
-
-			Gson gson = new Gson();
-			user = gson.fromJson(TwitterUtils.loadUser(mContext),
-					com.example.parakeet.User.class);
-
-		}
-
-	}
-
-	private void startUserStream() {
-		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
-		twitterStream.setOAuthConsumer(ConsumerKey, ConsumerSecret);
-		twitterStream.setOAuthAccessToken(TwitterUtils
-				.loadAccessToken(getActivity()));
-		twitterStream.addListener(new MyUserStreamAdapter());
-		twitterStream.user();
 	}
 
 	@Override
@@ -115,9 +79,22 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 
 		super.onActivityCreated(savedInstanceState);
 
-		/**
-		 * Scroll setting
-		 */
+		context = getActivity();
+
+		adapter = new StatusAdapter(context);
+
+		vibrator = (Vibrator) context
+				.getSystemService(Context.VIBRATOR_SERVICE);
+
+		loadStatus = new LoadStatus(adapter, context);
+		loadStatus.loadTimeLine();
+
+		startUserStream();
+
+		Gson gson = new Gson();
+		user = gson.fromJson(TwitterUtils.loadUser(context),
+				com.example.parakeet.User.class);
+
 		ListView listView = getListView();
 		listView.setScrollingCacheEnabled(false);
 		listView.setScrollbarFadingEnabled(true);
@@ -128,40 +105,9 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		listView.addFooterView(LayoutInflater.from(getActivity()).inflate(
 				R.layout.item_footer, listView, false));
 		sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(mContext);
+				.getDefaultSharedPreferences(context);
 
-		setListAdapter(mAdapter);
-
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO 自動生成されたメソッド・スタブ
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (data != null) {
-
-			bundle = data.getExtras();
-
-		}
-
-		switch (requestCode) {
-		case REQUEST_CODE:
-			if (resultCode == RESULT_CODE) {
-
-				int position = bundle.getInt("position");
-				Long statusId = bundle.getLong("statusID");
-				status = (Status) getListView().getItemAtPosition(position);
-
-				update = new TwitterUpdate(mTwitter, getActivity());
-				update.favorite(statusId, mAdapter, position, status);
-
-			}
-
-		default:
-			break;
-
-		}
+		setListAdapter(adapter);
 
 	}
 
@@ -187,7 +133,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 		// TODO 自動生成されたメソッド・スタブ
 
-		mLoadStatus.loadPastTimeline(mPullToRefreshListView);
+		loadStatus.loadPastTimeline(mPullToRefreshListView);
 
 	}
 
@@ -200,7 +146,50 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	}
 
 	/**
-	 * Called when receive status
+	 * begin UserStream
+	 */
+	private void startUserStream() {
+		TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+		twitterStream.setOAuthConsumer(ConsumerKey, ConsumerSecret);
+		twitterStream.setOAuthAccessToken(TwitterUtils
+				.loadAccessToken(getActivity()));
+		twitterStream.addListener(new MyUserStreamAdapter());
+		twitterStream.user();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (data != null) {
+
+			bundle = data.getExtras();
+
+		}
+
+		switch (requestCode) {
+		case REQUEST_CODE:
+			if (resultCode == RESULT_CODE) {
+
+				int position = bundle.getInt("position");
+				Long statusId = bundle.getLong("statusID");
+				status = (Status) getListView().getItemAtPosition(position);
+
+				update = new TwitterUpdate(twitter, getActivity());
+				update.favorite(statusId, adapter, position, status);
+
+			}
+
+		default:
+			break;
+
+		}
+
+	}
+
+	/**
+	 * called when receive status
 	 * 
 	 * @author Yoshimori
 	 * 
@@ -230,7 +219,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 						public void run() {
 							// TODO 自動生成されたメソッド・スタブ
 
-							mAdapter.insert(status, 0);
+							adapter.insert(status, 0);
 							onRetweet(status);
 							onReply(status);
 
@@ -330,7 +319,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 
 			if (status.isRetweet()
 					&& sharedPreferences.getBoolean("RETWEET_SOUND", false)) {
-				Toast.makeText(mContext,
+				Toast.makeText(context,
 						status.getUser().getName() + "がリツイートしました",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -345,7 +334,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 
 			if (sharedPreferences.getBoolean("REPLY_SOUND", false)
 					&& status.getText().indexOf(user.screenName) != -1) {
-				Toast.makeText(mContext,
+				Toast.makeText(context,
 						status.getUser().getName() + "からリプライが来ました",
 						Toast.LENGTH_SHORT).show();
 			}

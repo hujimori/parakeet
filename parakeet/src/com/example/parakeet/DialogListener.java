@@ -2,6 +2,11 @@ package com.example.parakeet;
 
 import java.util.EventListener;
 
+/**
+ * 
+ * @author Yoshimori
+ *
+ */
 public interface DialogListener extends EventListener {
 
 	//public void onPositiveClick();

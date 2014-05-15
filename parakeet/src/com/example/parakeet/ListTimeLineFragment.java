@@ -4,12 +4,12 @@ import twitter4j.UserList;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
-public class ListTimeLine extends ListFragment {
+public class ListTimeLineFragment extends ListFragment {
 
-	public static ListTimeLine getInstance(int id) {
-		ListTimeLine instance = new ListTimeLine();
+	public static ListTimeLineFragment getInstance(long listId) {
+		ListTimeLineFragment instance = new ListTimeLineFragment();
 		Bundle mBundle = new Bundle();
-		mBundle.putInt("ID", id);
+		mBundle.putLong("LIST_ID", listId);
 		instance.setArguments(mBundle);
 		return instance;
 		
@@ -22,7 +22,7 @@ public class ListTimeLine extends ListFragment {
 		
 		StatusAdapter mAdapter = new StatusAdapter(getActivity());
 		LoadStatus loadStatus = new LoadStatus(mAdapter, getActivity());
-		loadStatus.loadListTimeLine(getArguments().getInt("ID"));
+		loadStatus.loadListTimeLine(getArguments().getLong("LIST_ID"));
 		setListAdapter(mAdapter);
 		
 	}

@@ -17,36 +17,23 @@ import android.widget.Toast;
 
 public class BitmapControl {
 
-	// ----------------------------------------------------------------------------------------------
-	// Constant declaration
-	// ----------------------------------------------------------------------------------------------
-
-	// ----------------------------------------------------------------------------------------------
-	// Field Declaration
-	// ----------------------------------------------------------------------------------------------
-	private int srcWidth;
-	private int srcHeight;
+	
+	// ---------------------------------------------------------------------------------------------
+	// instance field
+	// ---------------------------------------------------------------------------------------------
+	private int srcWidth = 0;
+	private int srcHeight = 0;
 	private int baseSize = 128;
 	private int thumnSize = 90;
 	private Matrix matrix;
 	private Bitmap bitmap;
 
-	/**
-	 * 
-	 * @param filePath
-	 */
-	/*
-	 * public BitmapControl(String filePath) {
-	 * 
-	 * this.filePath = filePath;
-	 * 
-	 * }
-	 */
-
+	
+	
 	public BitmapControl() {
-
+		
 	}
-
+	
 	/**
 	 * decode bitmap from url
 	 * 
@@ -154,6 +141,12 @@ public class BitmapControl {
 		return dest;
 	}
 
+	/**
+	 * make round bitmap
+	 * @param context
+	 * @param imageUrl
+	 * @param clipImageView
+	 */
 	public void roundBitmap(final Context context, final String imageUrl,
 			final ClipImageView clipImageView) {
 

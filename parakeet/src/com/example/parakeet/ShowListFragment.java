@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity.ListItem;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -74,7 +75,8 @@ public class ShowListFragment extends Fragment implements DialogListener {
 					int position, long id) {
 				// TODO 自動生成されたメソッド・スタブ
 				UserList list = (UserList) parent.getItemAtPosition(position);
-				ItemListDialog mDialog = ItemListDialog.getInstance(list.getId());
+				ItemListDialog mDialog = ItemListDialog.getInstance(list
+						.getId());
 				mDialog.show(getFragmentManager(), "dialog");
 
 			}
@@ -101,8 +103,8 @@ public class ShowListFragment extends Fragment implements DialogListener {
 	public void onPositiveClick(String listName, boolean isPublic,
 			String discription) {
 		// TODO 自動生成されたメソッド・スタブ
-
-		createList(listName, isPublic, discription);
+		ListControl mControl = new ListControl(getActivity(), adapter);
+		mControl.createList(listName, isPublic, discription);
 
 	}
 
@@ -112,53 +114,14 @@ public class ShowListFragment extends Fragment implements DialogListener {
 
 	}
 
-	private void createList(final String listname, final boolean ispublic,
-			final String discription) {
-
-		// final ListAdapter mAdapter = new ListAdapter(getActivity());
-
-		AsyncTask<Void, Void, UserList> task = new AsyncTask<Void, Void, UserList>() {
-
-			@Override
-			protected UserList doInBackground(Void... params) {
-				// TODO 自動生成されたメソッド・スタブ
-
-				try {
-					return TwitterUtils.getTwitterInstance(getActivity())
-							.createUserList(listname, ispublic, discription);
-				} catch (TwitterException e) {
-					// TODO 自動生成された catch ブロック
-					e.printStackTrace();
-					return null;
-				}
-			}
-
-			@Override
-			protected void onPostExecute(UserList list) {
-				// TODO 自動生成されたメソッド・スタブ
-				super.onPostExecute(list);
-
-				if (list != null) {
-					adapter.add(list);
-					adapter.notifyDataSetChanged();
-					Toast.makeText(getActivity(), "リストを作成しました",
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-
-		};
-
-		task.execute();
-	}
-
 	public static class ItemListDialog extends DialogFragment {
 
 		private ListView listView;
 
-		public static ItemListDialog getInstance(long id) {
+		public static ItemListDialog getInstance(long listId) {
 			ItemListDialog instance = new ItemListDialog();
 			Bundle mBundle = new Bundle();
-			mBundle.putLong("ID", id);
+			mBundle.putLong("LIST_ID", listId);
 			instance.setArguments(mBundle);
 			return instance;
 		}
@@ -185,7 +148,8 @@ public class ShowListFragment extends Fragment implements DialogListener {
 			// TODO 自動生成されたメソッド・スタブ
 			super.onActivityCreated(mBundle);
 
-			final String[] strings = { "タイムライン", "編集", "削除", "ホームに追加" };
+			final String[] strings = { "タイムライン", "メンバー表示", "メンバー追加", "リスト編集",
+					"リスト削除", "ホームに追加" };
 			List<String> objects = new ArrayList<String>();
 
 			for (int i = 0; i < strings.length; i++) {
@@ -203,16 +167,26 @@ public class ShowListFragment extends Fragment implements DialogListener {
 						int position, long id) {
 					// TODO 自動生成されたメソッド・スタブ
 
+					Intent mIntent = new Intent();
 					switch (position) {
 
 					case 0:
-						ListTimeLine line = ListTimeLine.getInstance(getArguments().getInt("POSITION"));
-						FragmentManager manager = getFragmentManager();
-						FragmentTransaction transaction = manager
-								.beginTransaction();
-						transaction.add(android.R.id.content, line).commit();
-						
-						
+						mIntent.setClass(getActivity().getApplicationContext(),
+								ListTimeLineActivity.class);
+						mIntent.putExtra("LIST_ID",
+								getArguments().getLong("LIST_ID"));
+						mIntent.putExtra("ID", position);
+						getActivity().startActivity(mIntent);
+						dismiss();
+						/*
+						 * ListTimeLineFragment line =
+						 * ListTimeLineFragment.getInstance
+						 * (getArguments().getInt("POSITION")); FragmentManager
+						 * manager = getFragmentManager(); FragmentTransaction
+						 * transaction = manager .beginTransaction();
+						 * transaction.add(android.R.id.content, line).commit();
+						 */
+
 					}
 				}
 

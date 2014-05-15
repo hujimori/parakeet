@@ -45,7 +45,7 @@ public class MainActivity extends FragmentActivity {
 	private ListView mDrawerList;
 	private Gson gson = new Gson();
 	private User user;
-	private ImageAdapter mAdapter;
+	private DrawerAdapter mAdapter;
 
 	private static final String USER = "user";
 
@@ -142,7 +142,7 @@ public class MainActivity extends FragmentActivity {
 			objects.add(bindData);
 		}
 
-		mAdapter = new ImageAdapter(this, objects);
+		mAdapter = new DrawerAdapter(this, objects);
 
 		mDrawerList.setAdapter(mAdapter);
 

@@ -1,6 +1,7 @@
 package com.example.parakeet;
 
 import twitter4j.Twitter;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 
@@ -11,19 +12,17 @@ import android.support.v4.app.ListFragment;
  */
 public class DirectMessage extends ListFragment {
 
-	// ----------------------------------------------------------------------------------------------
-	// Constant declaration
-	// ----------------------------------------------------------------------------------------------
-	public static final String ARG_SECTION_NUMBER = "position_number"; // This
-																		// fragment's
-																		// tag
+	// ---------------------------------------------------------------------------------------------
+	// class field
+	// ---------------------------------------------------------------------------------------------
+	public static final String ARG_SECTION_NUMBER = "position_number";
 
-	// ----------------------------------------------------------------------------------------------
-	// Field declaration
-	// ----------------------------------------------------------------------------------------------
-	private DirectMessageAdapter directMessageAdapter;
-	private Twitter mTwitter;
+	// ---------------------------------------------------------------------------------------------
+	// instance field
+	// ---------------------------------------------------------------------------------------------
+	private DirectMessageAdapter adapter;
 	private LoadStatus loadStatus;
+	private Context context;
 
 	/**
 	 * Factory method
@@ -41,31 +40,17 @@ public class DirectMessage extends ListFragment {
 
 	}
 
-	/**
-	 * Called when the activity is created
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO 自動生成されたメソッド・スタブ
-		super.onCreate(savedInstanceState);
-
-		if (savedInstanceState == null) {
-
-			directMessageAdapter = new DirectMessageAdapter(getActivity());
-
-			mTwitter = TwitterUtils.getTwitterInstance(getActivity());
-
-			loadStatus = new LoadStatus(directMessageAdapter, getActivity());
-			loadStatus.loadDirectMessage();
-		}
-	}
-
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onActivityCreated(savedInstanceState);
 
-		setListAdapter(directMessageAdapter);
+		context = getActivity();
+
+		adapter = new DirectMessageAdapter(context);
+		loadStatus = new LoadStatus(adapter, context);
+		loadStatus.loadDirectMessage();
+		setListAdapter(adapter);
 	}
 
 }

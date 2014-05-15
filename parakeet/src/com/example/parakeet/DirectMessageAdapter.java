@@ -15,25 +15,32 @@ import android.widget.TextView;
 import com.loopj.android.image.SmartImageView;
 
 /**
- * This class is adapter for DirectMessage
+ * 
  * @author Yoshimori
  *
  */
 public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 
 	//----------------------------------------------------------------------------------------------
-	// Field declaration
+	// instance field
 	//----------------------------------------------------------------------------------------------
-	private LayoutInflater mInflater;
+	private LayoutInflater inflater;
 	private ViewHolder viewHolder;
 	private User user;
 
+	/**
+	 * 
+	 * @param context
+	 */
 	public DirectMessageAdapter(Context context) {
 		super(context, android.R.layout.simple_list_item_1);
 		// TODO 自動生成されたメソッド・スタブ
-		mInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 	}
 
+	/**
+	 * @return convertview
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO 自動生成されたメソッド・スタブ
@@ -42,7 +49,7 @@ public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 
 		if (convertView == null) {
 
-			convertView = mInflater.inflate(R.layout.list_item_tweet, null);
+			convertView = inflater.inflate(R.layout.list_item_tweet, null);
 
 			viewHolder = new ViewHolder();
 

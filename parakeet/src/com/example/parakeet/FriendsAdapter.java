@@ -13,17 +13,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * 
+ * @author Yoshimori
+ *
+ */
 public class FriendsAdapter extends ArrayAdapter<User> {
 
+	/**
+	 * 
+	 * @author Yoshimori
+	 *
+	 */
 	private class ViewHolder {
 		TextView screenName;
 		ImageView icon;
 	}
 	
+	// ---------------------------------------------------------------------------------------------
+	// instance field 
+	// ---------------------------------------------------------------------------------------------
 	private LayoutInflater inflater;
 	private ViewHolder holder;
 	private Context context;
 
+	/**
+	 * 
+	 * @param context
+	 */
 	public FriendsAdapter(Context context) {
 		super(context, 0);
 		// TODO 自動生成されたコンストラクター・スタブ

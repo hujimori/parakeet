@@ -21,8 +21,9 @@ import android.widget.LinearLayout;
  */
 public class DownLoadTask {
 
-	// ----------------------------------------------------------------------------------------------
-	// Field declaration
+	// ---------------------------------------------------------------------------------------------
+	// instance field
+	// ---------------------------------------------------------------------------------------------
 	private ImageView imageView;
 	private String tag;
 
@@ -33,10 +34,13 @@ public class DownLoadTask {
 	public DownLoadTask(ImageView imageView) {
 
 		this.imageView = imageView;
-		// substitution tag set
 
 	}
 
+	/**
+	 * 
+	 * @param urls
+	 */
 	public void setThumn(final String urls) {
 		AsyncTask<Void, Void, Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
 
@@ -46,11 +50,9 @@ public class DownLoadTask {
 
 				try {
 
-					Bitmap image = ImageCache.getImage(urls); // Creat image
-																// from
+					Bitmap image = ImageCache.getImage(urls);
 
-					tag = imageView.getTag().toString(); // ImageView for
-															// fieled// cache
+					tag = imageView.getTag().toString();
 
 					if (image == null) {
 
@@ -78,8 +80,7 @@ public class DownLoadTask {
 			protected void onPostExecute(Bitmap result) {
 				// TODO 自動生成されたメソッド・スタブ
 
-				// メンバのタグと imageView にセットしたタグが一致すれば
-				// 画像をセットする
+				
 				if (tag.equals(imageView.getTag())) {
 
 					if (result != null) {
@@ -95,6 +96,10 @@ public class DownLoadTask {
 		asyncTask.execute();
 	}
 
+	/**
+	 * 
+	 * @param iconUrl
+	 */
 	public void setIcon(final String iconUrl) {
 		AsyncTask<Void, Void, Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
 
@@ -134,40 +139,4 @@ public class DownLoadTask {
 		};
 		asyncTask.execute();
 	}
-	/*
-	 * 
-	 * @Override Bitmap doInBackground(String... urls) { // TODO 自動生成されたメソッド・スタブ
-	 * 
-	 * try {
-	 * 
-	 * Bitmap image = ImageCache.getImage(urls[0]); // Creat image from // cache
-	 * 
-	 * if (image == null) {
-	 * 
-	 * URL url = new URL(urls[0]);
-	 * 
-	 * BitmapControl control = new BitmapControl();
-	 * 
-	 * image = control.dedcodeBitmmapUrl(url);
-	 * 
-	 * ImageCache.setImage(urls[0], image);
-	 * 
-	 * }
-	 * 
-	 * return image; } catch (MalformedURLException e) { // TODO Auto-generated
-	 * catch block e.printStackTrace(); } catch (IOException e) { // TODO
-	 * Auto-generated catch block e.printStackTrace(); } return null; }
-	 * 
-	 * protected void onPostExecute(Bitmap result) { // TODO 自動生成されたメソッド・スタブ
-	 * 
-	 * // メンバのタグと imageView にセットしたタグが一致すれば // 画像をセットする if
-	 * (this.tag.equals(this.imageView.getTag())) {
-	 * 
-	 * if (result != null) {
-	 * 
-	 * this.imageView.setImageBitmap(result); // layout.addView(imageView); } }
-	 * execute();
-	 * 
-	 * } }
-	 */
 }

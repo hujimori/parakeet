@@ -18,9 +18,12 @@ import android.widget.Toast;
 
 public class IntentActivity extends FragmentActivity {
 
-	private String mCallBackURL;
+	// ---------------------------------------------------------------------------------------------
+	// instance field 
+	// ---------------------------------------------------------------------------------------------
+	private String callBackURL;
 	private Twitter twitter;
-	private RequestToken mRequestToken;
+	private RequestToken requestToken;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -28,21 +31,22 @@ public class IntentActivity extends FragmentActivity {
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_twitter_oauth);
 
-		Button button = (Button) findViewById(R.id.action_start_oauth);
+		Button mButton = (Button) findViewById(R.id.action_start_oauth);
 
-		mCallBackURL = getString(R.string.twitter_callback_url2);
+		callBackURL = getString(R.string.twitter_callback_url2);
 
 		String consumerKey = this.getString(R.string.twitter_consumer_key);
 		String consumerSecret = this
 				.getString(R.string.twitter_consumer_secret);
 
-		ConfigurationBuilder conf = new ConfigurationBuilder().setDebugEnabled(true);
+		ConfigurationBuilder conf = new ConfigurationBuilder()
+				.setDebugEnabled(true);
 
 		twitter = new TwitterFactory(conf.build()).getInstance();
 
 		twitter.setOAuthConsumer(consumerKey, consumerSecret);
 
-		button.setOnClickListener(new OnClickListener() {
+		mButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -55,16 +59,15 @@ public class IntentActivity extends FragmentActivity {
 	}
 
 	private void startAuthorize() {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
+		// TODO 自動生成されたメソッド・スタブ
 		AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
-
 			@Override
 			protected String doInBackground(Void... params) {
 				// TODO �����������ꂽ���\�b�h�E�X�^�u
 				try {
-					mRequestToken = twitter.getOAuthRequestToken(mCallBackURL);
+					requestToken = twitter.getOAuthRequestToken(callBackURL);
 
-					return mRequestToken.getAuthorizationURL();
+					return requestToken.getAuthorizationURL();
 				} catch (TwitterException e) {
 					e.printStackTrace();
 				}
@@ -93,7 +96,7 @@ public class IntentActivity extends FragmentActivity {
 		showToast("認証中");
 
 		if (intent == null || intent.getData() == null
-				|| !intent.getData().toString().startsWith(mCallBackURL)) {
+				|| !intent.getData().toString().startsWith(callBackURL)) {
 			return;
 		}
 		String verifier = intent.getData().getQueryParameter("oauth_verifier");
@@ -102,7 +105,7 @@ public class IntentActivity extends FragmentActivity {
 			protected AccessToken doInBackground(String... params) {
 				try {
 					return twitter
-							.getOAuthAccessToken(mRequestToken, params[0]);
+							.getOAuthAccessToken(requestToken, params[0]);
 
 				} catch (TwitterException e) {
 					e.printStackTrace();

@@ -14,18 +14,31 @@ import android.widget.TextView;
  * @author Yoshimori
  *
  */
-public class ImageAdapter extends ArrayAdapter<BindData> {
+public class DrawerAdapter extends ArrayAdapter<BindData> {
 
+	/**
+	 * inner class
+	 * @author Yoshimori
+	 *
+	 */
 	private class ViewHolder {
 		public TextView mTextView;
 		public ImageView mImageView;
 	}
 
+	// ---------------------------------------------------------------------------------------------
+	// instance field
+	// ---------------------------------------------------------------------------------------------
 	private LayoutInflater mInflater;
 	private ViewHolder mViewHolder;
 	private Context mContext;
 
-	public ImageAdapter(Context mContext, List<BindData> objects) {
+	/**
+	 * 
+	 * @param mContext
+	 * @param objects
+	 */
+	public DrawerAdapter(Context mContext, List<BindData> objects) {
 		super(mContext, 0, objects);
 
 		this.mContext = mContext;
