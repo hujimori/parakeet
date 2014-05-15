@@ -155,10 +155,10 @@ public class ShowListFragment extends Fragment implements DialogListener {
 
 		private ListView listView;
 
-		public static ItemListDialog getInstance(int id) {
+		public static ItemListDialog getInstance(long id) {
 			ItemListDialog instance = new ItemListDialog();
 			Bundle mBundle = new Bundle();
-			mBundle.putInt("ID", id);
+			mBundle.putLong("ID", id);
 			instance.setArguments(mBundle);
 			return instance;
 		}

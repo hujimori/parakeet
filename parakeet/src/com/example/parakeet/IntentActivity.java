@@ -36,7 +36,7 @@ public class IntentActivity extends FragmentActivity {
 		String consumerSecret = this
 				.getString(R.string.twitter_consumer_secret);
 
-		ConfigurationBuilder conf = new ConfigurationBuilder().setUseSSL(true);
+		ConfigurationBuilder conf = new ConfigurationBuilder().setDebugEnabled(true);
 
 		twitter = new TwitterFactory(conf.build()).getInstance();
 

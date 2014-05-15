@@ -80,7 +80,7 @@ public class TwitterUtils {
 		String consumerSecret = mContext
 				.getString(R.string.twitter_consumer_secret);
 
-		ConfigurationBuilder conf = new ConfigurationBuilder().setUseSSL(true);
+		ConfigurationBuilder conf = new ConfigurationBuilder().setDebugEnabled(true);
 
 		Twitter mTwitter = new TwitterFactory(conf.build()).getInstance();
 

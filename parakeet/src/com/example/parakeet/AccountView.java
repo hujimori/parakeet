@@ -56,7 +56,7 @@ public class AccountView extends DialogFragment {
 		String consumerSecret = getActivity().getString(
 				R.string.twitter_consumer_secret);
 
-		ConfigurationBuilder conf = new ConfigurationBuilder().setUseSSL(true);
+		ConfigurationBuilder conf = new ConfigurationBuilder().setDebugEnabled(true);
 
 		twitter = new TwitterFactory(conf.build()).getInstance();
 
