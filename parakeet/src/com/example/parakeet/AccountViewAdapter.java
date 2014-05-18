@@ -3,7 +3,6 @@ package com.example.parakeet;
 import java.util.List;
 
 import com.example.parakeet.Profile.Fragment1;
-import com.loopj.android.image.SmartImageView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,12 +32,12 @@ public class AccountViewAdapter extends ArrayAdapter<BindData> {
 
 		this.mContext = context;
 
-		// TODO 自動生成されたコンストラクター・スタブ
+		// TODO 閾ｪ蜍慕函謌舌＆繧後◆繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ繝ｼ繝ｻ繧ｹ繧ｿ繝�
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO 自動生成されたメソッド・スタブ
+		// TODO 閾ｪ蜍慕函謌舌＆繧後◆繝｡繧ｽ繝�ラ繝ｻ繧ｹ繧ｿ繝�
 
 		BindData bindData = (BindData) getItem(position);
 
@@ -52,11 +51,11 @@ public class AccountViewAdapter extends ArrayAdapter<BindData> {
 
 			mViewHolder.textView = (TextView) convertView
 					.findViewById(R.id.textview);
-			
+
 			mViewHolder.imageView = (ImageView) convertView.findViewById(R.id.radiobutton);
 
 			convertView.setTag(mViewHolder);
-	
+
 		}
 
 		else {
@@ -70,7 +69,7 @@ public class AccountViewAdapter extends ArrayAdapter<BindData> {
 
 		if (TwitterUtils.loadID(mContext).equals(bindData.getId())) {
 
-			
+
 			bindData.setIsChecked(true);
 			mViewHolder.imageView
 					.setImageResource(R.drawable.btn_radio_on_pressed_holo_dark);
@@ -84,41 +83,41 @@ public class AccountViewAdapter extends ArrayAdapter<BindData> {
 
 		/*
 		 * mViewHolder.radioButton.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { // TODO 自動生成されたメソッド・スタブ
-		 * 
+		 *
+		 * @Override public void onClick(View v) { // TODO 閾ｪ蜍慕函謌舌＆繧後◆繝｡繧ｽ繝�ラ繝ｻ繧ｹ繧ｿ繝�
+		 *
 		 * // for (int i = 0; i < appList.size(); i++) {
 		 * //appList.get(i).setIsChecked(false); //}
-		 * 
+		 *
 		 * Toast.makeText(mContext, appData.getScreenName(),
 		 * Toast.LENGTH_SHORT).show(); //TwitterUtils.saveID(mContext,
 		 * appData.getId());
-		 * 
-		 * // クリックした箇所のみチェックする // appData.setIsChecked(true); // アダプタ内容を即時反映する
+		 *
+		 * // 繧ｯ繝ｪ繝�け縺励◆邂�園縺ｮ縺ｿ繝√ぉ繝�け縺吶ｋ // appData.setIsChecked(true); // 繧｢繝�繝励ち蜀�ｮｹ繧貞叉譎ょ渚譏�縺吶ｋ
 		 * notifyDataSetChanged(); }
-		 * 
+		 *
 		 * });
-		 * 
+		 *
 		 * /* Gson gson = new Gson(); User user = gson.fromJson(string,
 		 * User.class);
-		 * 
+		 *
 		 * mViewHolder.smartImageView.setImageUrl(user.profileImageUrl);
-		 * 
+		 *
 		 * mViewHolder.textView.setText(user.id + "/" +
 		 * TwitterUtils.loadID(mContext));
-		 * 
+		 *
 		 * mViewHolder.radioButton.setId(Integer.valueOf(user.id));
-		 * 
+		 *
 		 * if (mViewHolder.radioButton.getId() == Integer.valueOf(TwitterUtils
 		 * .loadID(mContext))) {
-		 * 
+		 *
 		 * // mViewHolder.radioButton.setChecked(true); }
-		 * 
+		 *
 		 * /* mViewHolder.radioButton.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { // TODO 自動生成されたメソッド・スタブ
-		 * 
-		 * 
+		 *
+		 * @Override public void onClick(View v) { // TODO 閾ｪ蜍慕函謌舌＆繧後◆繝｡繧ｽ繝�ラ繝ｻ繧ｹ繧ｿ繝�
+		 *
+		 *
 		 * mViewHolder.radioButton.setChecked(true); Toast.makeText(mContext,
 		 * mViewHolder.radioButton.getId(), Toast.LENGTH_SHORT).show(); // int
 		 * id = mViewHolder.radioButton.getId(); //TwitterUtils.saveID(mContext,

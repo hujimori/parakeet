@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.loopj.android.image.SmartImageView;
 
-/*���̃N���X�͎Q�Ƃ̂����Ɏg����
+/*�ｽ�ｽ�ｽﾌク�ｽ�ｽ�ｽX�ｽﾍ参�ｽﾆのゑｿｽ�ｽ�ｽ�ｽﾉ使�ｽ�ｽ�ｽ�ｽ
  *
  */
 public class ViewHolder {
@@ -20,9 +20,9 @@ public class ViewHolder {
 	public java.text.DateFormat date;
 	public ImageView thumn;
 	public ImageView imageView;
-	public SmartImageView icon;
-	public SmartImageView favIcon;
-	public SmartImageView smartImageView;
+//	public SmartImageView icon;
+//	public SmartImageView favIcon;
+//	public SmartImageView smartImageView;
 	public LinearLayout layout;
 	public ImageView thum2;
 	public RadioButton radioButton;

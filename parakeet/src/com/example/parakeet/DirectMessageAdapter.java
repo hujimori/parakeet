@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.loopj.android.image.SmartImageView;
+//import com.loopj.android.image.SmartImageView;
 
 /**
- * 
+ *
  * @author Yoshimori
  *
  */
@@ -29,7 +29,7 @@ public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 	private User user;
 
 	/**
-	 * 
+	 *
 	 * @param context
 	 */
 	public DirectMessageAdapter(Context context) {
@@ -63,7 +63,7 @@ public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 
 			viewHolder.date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-			viewHolder.icon = (SmartImageView) convertView.findViewById(R.id.icon);
+		//	viewHolder.icon = (SmartImageView) convertView.findViewById(R.id.icon);
 
 			convertView.setTag(viewHolder);
 
@@ -75,7 +75,7 @@ public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 
 		viewHolder.screenName.setText("@" + dm.getSenderScreenName());
 
-		user = dm.getSender(); // Get sender's user object 
+		user = dm.getSender(); // Get sender's user object
 
 		viewHolder.name.setText(user.getName());
 
@@ -83,7 +83,7 @@ public class DirectMessageAdapter extends ArrayAdapter<DirectMessage> {
 
 		viewHolder.tweetTime.setText(viewHolder.date.format(dm.getCreatedAt()));
 
-		viewHolder.icon.setImageUrl(user.getProfileImageURL());
+	//	viewHolder.icon.setImageUrl(user.getProfileImageURL());
 
 		return convertView;
 
