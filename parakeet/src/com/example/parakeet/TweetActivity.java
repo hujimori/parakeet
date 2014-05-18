@@ -11,12 +11,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView.BufferType;
 
-import com.loopj.android.image.SmartImageView;
 
 public class TweetActivity extends FragmentActivity {
 
 	private String screenname;
-	private SmartImageView imageIcon;
 	private String url;
 	private Twitter mTwitter;
 	private EditText editText;
@@ -27,7 +25,7 @@ public class TweetActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
+		// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ�ｽ�ｽ�ｽ\�ｽb�ｽh�ｽE�ｽX�ｽ^�ｽu
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_tweet);
 
@@ -47,14 +45,14 @@ public class TweetActivity extends FragmentActivity {
 		}
 
 		if (null != url) {
-			imageIcon = (SmartImageView) findViewById(R.id.icon);
-			imageIcon.setImageUrl(url);
+			//imageIcon = (SmartImageView) findViewById(R.id.icon);
+			//imageIcon.setImageUrl(url);
 
 		}
 		else if (null == url) {
 			loadUrl(mTwitter);
 
-			
+
 		}
 
 		if (null != screenname) {
@@ -74,13 +72,13 @@ public class TweetActivity extends FragmentActivity {
 
 			@Override
 			public void run() {
-				// TODO �����������ꂽ���\�b�h�E�X�^�u
+				// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ�ｽ�ｽ�ｽ\�ｽb�ｽh�ｽE�ｽX�ｽ^�ｽu
 				try {
-					//�X�N���[���l�[���擾
+					//�ｽX�ｽN�ｽ�ｽ�ｽ[�ｽ�ｽ�ｽl�ｽ[�ｽ�ｽ�ｽ謫ｾ
 					screenname = mTwitter.getScreenName();
 					url = mTwitter.showUser(screenname).getProfileImageURL();
 				} catch (TwitterException e) {
-					// TODO �����������ꂽ catch �u���b�N
+					// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ catch �ｽu�ｽ�ｽ�ｽb�ｽN
 					e.printStackTrace();
 				}
 
@@ -88,10 +86,10 @@ public class TweetActivity extends FragmentActivity {
 
 					@Override
 					public void run() {
-						// TODO �����������ꂽ���\�b�h�E�X�^�u
+						// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ�ｽ�ｽ�ｽ\�ｽb�ｽh�ｽE�ｽX�ｽ^�ｽu
 
-						imageIcon = (SmartImageView) findViewById(R.id.icon);
-						imageIcon.setImageUrl(url);
+				//imageIcon = (SmartImageView) findViewById(R.id.icon);
+					//	imageIcon.setImageUrl(url);
 
 
 
@@ -107,14 +105,14 @@ public class TweetActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
+		// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ�ｽ�ｽ�ｽ\�ｽb�ｽh�ｽE�ｽX�ｽ^�ｽu
 		getMenuInflater().inflate(R.menu.tweet_activity_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// TODO �����������ꂽ���\�b�h�E�X�^�u
+		// TODO �ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ�ｽ黷ｽ�ｽ�ｽ�ｽ\�ｽb�ｽh�ｽE�ｽX�ｽ^�ｽu
 		switch (item.getItemId()) {
 
 		case R.id.menu_edit:
