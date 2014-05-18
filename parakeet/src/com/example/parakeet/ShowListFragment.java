@@ -55,7 +55,7 @@ public class ShowListFragment extends Fragment implements DialogListener {
 
 		ListAdapter adapter = new ListAdapter(getActivity());
 		LoadStatus mLoadStatus = new LoadStatus(adapter, getActivity());
-		mLoadStatus.loadLists();
+	//	mLoadStatus.loadLists();
 
 		button.setOnClickListener(new OnClickListener() {
 
