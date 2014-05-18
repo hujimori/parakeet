@@ -34,7 +34,7 @@ public class AccountView extends DialogFragment {
 
 	private ListView listView;
 	private AccountViewAdapter mAdapter;
-	private Button button;
+	//private Button button;
 	private String mCallBackURL;
 	private Twitter twitter;
 	private RequestToken mRequestToken;
