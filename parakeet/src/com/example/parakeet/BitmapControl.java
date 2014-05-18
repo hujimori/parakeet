@@ -29,7 +29,6 @@ public class BitmapControl {
 	private Bitmap bitmap;
 
 	
-	
 	public BitmapControl() {
 		
 	}
