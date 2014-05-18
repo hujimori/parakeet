@@ -68,11 +68,9 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		if (TwitterUtils.loadID(this) == null) {
-
 			Intent intent = new Intent(this, TwitterOAuthActivity.class);
 			startActivity(intent);
 			finish();
-
 		} else {
 			if (savedInstanceState == null) {
 
