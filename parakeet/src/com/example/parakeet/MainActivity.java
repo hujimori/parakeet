@@ -73,7 +73,6 @@ public class MainActivity extends FragmentActivity {
 			finish();
 		} else {
 			if (savedInstanceState == null) {
-
 				setContentView(R.layout.activity_main);
 
 				ActionBar mActionBar = getActionBar();
@@ -87,7 +86,6 @@ public class MainActivity extends FragmentActivity {
 				setDrawerLayout();
 
 				setListAdapter();
-
 			}
 		}
 	}
