@@ -258,7 +258,7 @@ public class MainActivity extends FragmentActivity {
 	
 	class DrawerListItemclickListener implements OnItemClickListener {
 
-		private int pos;
+		//private int pos;
 
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
