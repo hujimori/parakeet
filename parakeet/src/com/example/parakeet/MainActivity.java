@@ -108,7 +108,6 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setAdapter(mAdapter); // Set adapter
 
 	}
-
 	/**
 	 * 
 	 * Set list adapter
