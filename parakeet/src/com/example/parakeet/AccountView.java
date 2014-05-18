@@ -39,7 +39,6 @@ public class AccountView extends DialogFragment {
 	private Twitter twitter;
 	private RequestToken mRequestToken;
 	private int check = 0;
-	
 	private final String USER = "user";
 
 	@Override
@@ -62,26 +61,26 @@ public class AccountView extends DialogFragment {
 
 		twitter.setOAuthConsumer(consumerKey, consumerSecret);
 
-	
+
 		SharedPreferences sharedPreferences = getActivity().getSharedPreferences(USER, Context.MODE_PRIVATE);
-		
+
 
 		Map<String, ?> map = sharedPreferences.getAll();
 
 		List<BindData> objects = new ArrayList<BindData>();
-		
+
 		BindData bindData;
-		
+
 		for (String key : map.keySet()) {
 
 			Gson gson = new Gson();
 			User user = gson.fromJson(sharedPreferences.getString(key, null), User.class);
 
 			bindData = new BindData(user.screenName, false, user.id);
-			
+
 			objects.add(bindData);
 		}
-		
+
 		mAdapter = new AccountViewAdapter(getActivity(), objects);
 
 		listView.setAdapter(mAdapter);
@@ -114,49 +113,49 @@ public class AccountView extends DialogFragment {
 	/*
 	 * @Override public Dialog onCreateDialog(Bundle savedInstanceState) { //
 	 * TODO 自動生成されたメソッド・スタブ
-	 * 
+	 *
 	 * LayoutInflater inflater = getActivity().getLayoutInflater();
-	 * 
+	 *
 	 * View view = inflater.inflate(R.layout.dialog_view, null);
-	 * 
+	 *
 	 * String consumerKey = getActivity().getString(
 	 * R.string.twitter_consumer_key); String consumerSecret =
 	 * getActivity().getString( R.string.twitter_consumer_secret);
-	 * 
+	 *
 	 * ConfigurationBuilder conf = new ConfigurationBuilder().setUseSSL(true);
-	 * 
+	 *
 	 * twitter = new TwitterFactory(conf.build()).getInstance();
-	 * 
+	 *
 	 * twitter.setOAuthConsumer(consumerKey, consumerSecret);
-	 * 
+	 *
 	 * mAdapter = new AccountViewAdapter(getActivity());
-	 * 
+	 *
 	 * SharedPreferences sp = PreferenceManager
 	 * .getDefaultSharedPreferences(getActivity());
-	 * 
+	 *
 	 * Map<String, ?> map = sp.getAll();
-	 * 
+	 *
 	 * for (String key : map.keySet()) {
-	 * 
+	 *
 	 * mAdapter.add(sp.getString(key, null)); }
-	 * 
+	 *
 	 * AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 	 * builder.setTitle("アカウント"); builder.setSingleChoiceItems(mAdapter, check,
 	 * new DialogInterface.OnClickListener() {
-	 * 
+	 *
 	 * @Override public void onClick(DialogInterface dialog, int which) { //
 	 * TODO 自動生成されたメソッド・スタブ
-	 * 
+	 *
 	 * } });
-	 * 
+	 *
 	 * builder.setPositiveButton("アカウント追加", new
 	 * DialogInterface.OnClickListener() {
-	 * 
+	 *
 	 * @Override public void onClick(DialogInterface dialog, int which) { //
 	 * TODO 自動生成されたメソッド・スタブ
-	 * 
+	 *
 	 * } }); builder.setView(view);
-	 * 
+	 *
 	 * return builder.create(); }
 	 */
 	// @Override
@@ -164,45 +163,45 @@ public class AccountView extends DialogFragment {
 	/*
 	 * public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	 * Bundle savedInstanceState) { // TODO 自動生成されたメソッド・スタブ
-	 * 
+	 *
 	 * View view = inflater.inflate(R.layout.account_view, null);
-	 * 
+	 *
 	 * listView = (ListView) view.findViewById(R.id.list);
-	 * 
+	 *
 	 * button = (Button) view.findViewById(R.id.add_account);
-	 * 
+	 *
 	 * mCallBackURL = getString(R.string.twitter_callback_url2);
-	 * 
+	 *
 	 * String consumerKey = getActivity().getString(
 	 * R.string.twitter_consumer_key); String consumerSecret =
 	 * getActivity().getString( R.string.twitter_consumer_secret);
-	 * 
+	 *
 	 * ConfigurationBuilder conf = new ConfigurationBuilder().setUseSSL(true);
-	 * 
+	 *
 	 * twitter = new TwitterFactory(conf.build()).getInstance();
-	 * 
+	 *
 	 * twitter.setOAuthConsumer(consumerKey, consumerSecret);
-	 * 
+	 *
 	 * button.setOnClickListener(new OnClickListener() {
-	 * 
+	 *
 	 * @Override public void onClick(View v) { // TODO 自動生成されたメソッド・スタブ
-	 * 
+	 *
 	 * Intent intent = new Intent(); intent.setClass(getActivity(),
 	 * IntentActivity.class); startActivity(intent); // startAuthorize();
-	 * 
+	 *
 	 * } });
-	 * 
+	 *
 	 * mAdapter = new AccountViewAdapter(getActivity());
-	 * 
+	 *
 	 * SharedPreferences sp = PreferenceManager
 	 * .getDefaultSharedPreferences(getActivity());
-	 * 
+	 *
 	 * Map<String, ?> map = sp.getAll();
-	 * 
+	 *
 	 * for (String key : map.keySet()) {
-	 * 
+	 *
 	 * mAdapter.add(sp.getString(key, null)); }
-	 * 
+	 *
 	 * listView.setAdapter(mAdapter); return view; }
 	 */
 	private void startAuthorize() {
