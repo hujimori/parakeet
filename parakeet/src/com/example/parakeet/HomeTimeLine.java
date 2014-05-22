@@ -116,10 +116,9 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		// TODO 自動生成されたメソッド・スタブ
 		super.onViewCreated(view, savedInstanceState);
 
-		if (savedInstanceState == null) {
 			mPullToRefreshListView = getPullToRefreshListView();
 
-		}
+		
 		mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 		mPullToRefreshListView.setOnRefreshListener(this);
 

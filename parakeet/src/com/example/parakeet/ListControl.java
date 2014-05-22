@@ -1,10 +1,13 @@
 package com.example.parakeet;
 
+import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 import twitter4j.IDs;
 import twitter4j.PagableResponseList;
 import twitter4j.Paging;
+import twitter4j.RateLimitStatus;
 import twitter4j.ResponseList;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -119,6 +122,42 @@ public class ListControl {
 		task.execute();
 	}
 
+	public void loaAllLists(final String screenName) {
+		AsyncTask<Void, Void, ResponseList<UserList>> task = new AsyncTask<Void, Void, ResponseList<UserList>>() {
+
+			@Override
+			protected ResponseList<UserList> doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+				try {
+					return TwitterUtils.getTwitterInstance(context)
+							.getUserLists(screenName);
+				} catch (IllegalStateException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					return null;
+				} catch (TwitterException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+					return null;
+				}
+			}
+
+			@Override
+			protected void onPostExecute(ResponseList<UserList> result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+
+				if (result != null) {
+					for (UserList list : result) {
+						listAdapter.add(list);
+					}
+				} else {
+					showToast("リストの取得に失敗しました");
+				}
+			}
+		};
+		task.execute();
+	}
 	/**
 	 * update a list
 	 * 
@@ -130,16 +169,16 @@ public class ListControl {
 	 * @param position
 	 */
 	public void listUpdate(final long listId, final String newListName,
-			final boolean isPublic, final String discription,
-			final UserList oldList, final int position) {
+			final boolean isPublic, final String discription, final int position) {
 		AsyncTask<Void, Void, UserList> task = new AsyncTask<Void, Void, UserList>() {
-
+			UserList oldList;
 			@Override
 			protected UserList doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
 
 				Twitter mTwitter = TwitterUtils.getTwitterInstance(context);
 				try {
+					oldList = mTwitter.showUserList(listId);
 					return mTwitter.updateUserList(listId, newListName,
 							isPublic, discription);
 				} catch (IllegalStateException e) {
@@ -159,8 +198,10 @@ public class ListControl {
 				super.onPostExecute(newList);
 
 				if (newList != null) {
-					listAdapter.remove(oldList);
 					listAdapter.insert(newList, position);
+					listAdapter.remove(oldList);
+
+					listAdapter.notifyDataSetChanged();
 					showToast("リストを更新しました");
 				} else {
 					showToast("リストの更新に失敗しました");
@@ -249,23 +290,18 @@ public class ListControl {
 		task.execute();
 	}
 
-/*	public void loadListmembers(final long listId) {
+	public void loadListmembers(final long listId) {
 		AsyncTask<Void, Void, PagableResponseList<User>> task = new AsyncTask<Void, Void, PagableResponseList<User>>() {
 
-			do {
 			@Override
 			protected PagableResponseList<User> doInBackground(Void... params) {
 				// TODO 自動生成されたメソッド・スタブ
-				
+
 				try {
-				long cursor = -1;
-				IDs iDs;
-				iDs = (IDs) TwitterUtils.getTwitterInstance(context)
-								.getUserListMembers(listId, cursor);
-						cursor = iDs.getNextCursor();
-						return (PagableResponseList<User>) iDs;
-				}
-				catch (Exception e) {
+					long cursor = -1;
+					return TwitterUtils.getTwitterInstance(context)
+							.getUserListMembers(listId, cursor);
+				} catch (Exception e) {
 					// TODO: handle exception
 				}
 				return null;
@@ -283,11 +319,74 @@ public class ListControl {
 				} else
 					showToast("タイムラインの取得に失敗しました");
 			}
-			}while (iDs.hasNext());
 		};
-		 
+
 		task.execute();
-	}*/
+	}
+
+	public void addListMember(final long listId, final long userId) {
+		AsyncTask<Void, Void, UserList> task = new AsyncTask<Void, Void, UserList>() {
+
+			@Override
+			protected UserList doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				try {
+
+					return TwitterUtils.getTwitterInstance(context)
+							.createUserListMember(listId, userId);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				return null;
+
+			}
+
+			@Override
+			protected void onPostExecute(UserList result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+
+				if (result != null) {
+					listAdapter.add(result);
+				} else
+					showToast("タイムラインの取得に失敗しました");
+			}
+		};
+
+		task.execute();
+	}
+
+	public void loadList(final long listId) {
+		AsyncTask<Void, Void, UserList> task = new AsyncTask<Void, Void, UserList>() {
+
+			@Override
+			protected UserList doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				try {
+					return TwitterUtils.getTwitterInstance(context)
+							.showUserList(listId);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				return null;
+
+			}
+
+			@Override
+			protected void onPostExecute(UserList result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+
+				if (result != null) {
+				}
+
+			}
+		};
+
+		task.execute();
+	}
 
 	private void showToast(String string) {
 		Toast.makeText(context, string, Toast.LENGTH_SHORT).show();

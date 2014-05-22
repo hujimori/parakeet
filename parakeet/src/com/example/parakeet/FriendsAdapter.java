@@ -83,7 +83,7 @@ public class FriendsAdapter extends ArrayAdapter<User> {
 		
 		DownLoadTask task1 = new DownLoadTask(holder.icon);
 		
-		task1.setThumn(user.getBiggerProfileImageURL());
+		task1.setProfileIcon(user.getBiggerProfileImageURL());
 	
 		return convertView;
 	}

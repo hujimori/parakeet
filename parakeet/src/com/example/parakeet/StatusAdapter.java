@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
@@ -25,6 +26,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 		java.text.DateFormat date;
 		ImageView icon;
 		ImageView thumn;
+		LinearLayout layout;
 	}
 
 	private LayoutInflater mInflater;
@@ -69,7 +71,8 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 
 			mViewHolder.via = (TextView) convertView.findViewById(R.id.via);
 
-			mViewHolder.thumn = (ImageView) convertView.findViewById(R.id.thum);
+			mViewHolder.layout = (LinearLayout) convertView.findViewById(R.id.image);
+			//mViewHolder.thumn = (ImageView) convertView.findViewById(R.id.thum);
 
 			convertView.setTag(mViewHolder);
 
@@ -91,13 +94,13 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 
 		mViewHolder.icon.setTag(status.getUser().getBiggerProfileImageURL());
 		DownLoadTask task1 = new DownLoadTask(mViewHolder.icon);
-		task1.setThumn(status.getUser().getBiggerProfileImageURL());
+		task1.setProfileIcon(status.getUser().getBiggerProfileImageURL());
 
 		charSequence = Html.fromHtml(status.getSource());
 
 		mViewHolder.via.setText("via " + charSequence.toString());
 
-		mViewHolder.thumn.setVisibility(View.GONE);
+		//mViewHolder.thumn.setVisibility(View.GONE);
 
 
 		MediaEntity[] entities = status.getMediaEntities();
@@ -105,12 +108,12 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			for (MediaEntity media : entities) {
 				url = media.getMediaURL();
 
-				mViewHolder.thumn.setVisibility(View.VISIBLE);
+				//mViewHolder.thumn.setVisibility(View.VISIBLE);
 
-				mViewHolder.thumn.setTag(url);
+				//mViewHolder.thumn.setTag(url);
 
 				DownLoadTask task2 = new DownLoadTask(mViewHolder.thumn);
-				task2.setThumn(url);
+				task2.setThumn(url,mViewHolder.layout);
 			}
 		}
 

@@ -11,6 +11,7 @@ public class ListTimeLineActivity extends FragmentActivity {
 	protected void onCreate(Bundle arg0) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(arg0);
+		long id = getIntent().getExtras().getLong("LIIST_ID");
 		ListTimeLineFragment line = ListTimeLineFragment.getInstance(getIntent().getExtras().getLong("LIST_ID"));
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager

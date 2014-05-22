@@ -3,11 +3,14 @@ package com.example.parakeet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import twitter4j.TwitterException;
 import twitter4j.UserList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity.ListItem;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -35,7 +38,8 @@ public class ShowListFragment extends Fragment implements DialogListener {
 
 	private ListView listView;
 	private Button button;
-	private ListAdapter adapter;
+	private static ListAdapter adapter;
+	private static ListControl control;
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -53,10 +57,12 @@ public class ShowListFragment extends Fragment implements DialogListener {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onActivityCreated(savedInstanceState);
 
-		ListAdapter adapter = new ListAdapter(getActivity());
-	//	LoadStatus mLoadStatus = new LoadStatus(adapter, getActivity());
-	//	mLoadStatus.loadLists();
-
+		Gson gson = new Gson();
+		User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
+				User.class);
+		adapter = new ListAdapter(getActivity());
+		control = new ListControl(getActivity(), adapter);
+		control.loadLists(user.screenName);
 		button.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -94,7 +100,7 @@ public class ShowListFragment extends Fragment implements DialogListener {
 	}
 
 	private void showDialog() {
-		ShowListDialog mDialog = new ShowListDialog();
+		ShowListDialog mDialog = ShowListDialog.getInstance("リスト作成");
 		mDialog.setDialogListener(this);
 		mDialog.show(getFragmentManager(), "dialog");
 	}
@@ -109,12 +115,19 @@ public class ShowListFragment extends Fragment implements DialogListener {
 	}
 
 	@Override
+	public void onPositiveClick(String newListName, boolean isPublic,
+			String discription, long listId) {
+		// TODO 自動生成されたメソッド・スタブ
+		ListControl mControl = new ListControl(getActivity(), adapter);
+	//	mControl.listUpdate(listId, newListName, isPublic, discription);
+	}
+	@Override
 	public void onNegativeClick() {
 		// TODO 自動生成されたメソッド・スタブ
 
 	}
 
-	public static class ItemListDialog extends DialogFragment {
+	public static class ItemListDialog extends DialogFragment  {
 
 		private ListView listView;
 
@@ -148,8 +161,8 @@ public class ShowListFragment extends Fragment implements DialogListener {
 			// TODO 自動生成されたメソッド・スタブ
 			super.onActivityCreated(mBundle);
 
-			final String[] strings = { "タイムライン", "メンバー表示", "メンバー追加", "リスト編集",
-					"リスト削除", "ホームに追加" };
+			final String[] strings = { "タイムライン", "メンバー表示", "リスト編集", "リスト削除",
+					"ホームに追加" };
 			List<String> objects = new ArrayList<String>();
 
 			for (int i = 0; i < strings.length; i++) {
@@ -168,16 +181,44 @@ public class ShowListFragment extends Fragment implements DialogListener {
 					// TODO 自動生成されたメソッド・スタブ
 
 					Intent mIntent = new Intent();
+					long listId = getArguments().getLong("LIST_ID");
 					switch (position) {
 
+					// show list timeline
 					case 0:
 						mIntent.setClass(getActivity().getApplicationContext(),
 								ListTimeLineActivity.class);
-						mIntent.putExtra("LIST_ID",
-								getArguments().getLong("LIST_ID"));
+						mIntent.putExtra("LIST_ID", listId);
 						mIntent.putExtra("ID", position);
 						getActivity().startActivity(mIntent);
 						dismiss();
+						break;
+
+					// show list members
+					case 1:
+						mIntent.setClass(getActivity().getApplicationContext(),
+								ListTimeLineActivity.class);
+						mIntent.putExtra("LIST_ID", listId);
+						mIntent.putExtra("ID", position);
+						getActivity().startActivity(mIntent);
+						dismiss();
+						break;
+
+					// edit list
+					case 2:
+						showDialog(listId , position);
+						dismiss();
+						break;
+
+					// destroy list
+					case 3:
+						ListControl mControl = new ListControl(getActivity(),
+								adapter);
+						mControl.destroyList(listId);
+						dismiss();
+						break;
+					// add list tp home
+					case 4:
 						/*
 						 * ListTimeLineFragment line =
 						 * ListTimeLineFragment.getInstance
@@ -193,6 +234,14 @@ public class ShowListFragment extends Fragment implements DialogListener {
 			});
 		}
 
+		private void showDialog(long listId, int position) {
+			ShowListDialog mDialog = ShowListDialog.getInstance("リスト編集", listId, position);
+		 //   mDialog.setDialogListener();
+			mDialog.show(getFragmentManager(), "dialog");
+		}
+
+		
+
 	}
 
 	public static class ShowListDialog extends DialogFragment {
@@ -200,6 +249,25 @@ public class ShowListFragment extends Fragment implements DialogListener {
 		private AlertDialog alertDialog;
 		private EditText nameText;
 		private DialogListener listener = null;
+
+		public static ShowListDialog getInstance(String title) {
+			ShowListDialog instance = new ShowListDialog();
+			Bundle mBundle = new Bundle();
+			mBundle.putString("TITLE", title);
+			instance.setArguments(mBundle);
+			return instance;
+		}
+		
+		public static ShowListDialog getInstance(String title, long listId, int position) {
+			ShowListDialog instance = new ShowListDialog();
+			Bundle mBundle = new Bundle();
+			mBundle.putString("TITLE", title);
+			mBundle.putLong("LIST_ID", listId);
+			mBundle.putInt("POSITION", position);
+			instance.setArguments(mBundle);
+			return instance;
+			
+		}
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -217,7 +285,7 @@ public class ShowListFragment extends Fragment implements DialogListener {
 			AlertDialog.Builder mBuilder = new AlertDialog.Builder(
 					getActivity());
 
-			mBuilder.setTitle("リスト作成");
+			mBuilder.setTitle(getArguments().getString("TITLE", null));
 
 			mBuilder.setPositiveButton("Ok",
 					new DialogInterface.OnClickListener() {
@@ -225,9 +293,23 @@ public class ShowListFragment extends Fragment implements DialogListener {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// TODO 自動生成されたメソッド・スタブ
-							listener.onPositiveClick(nameText.getText()
+							
+							if (getArguments().getLong("LIST_ID") != 0) {
+							/*	listener.onPositiveClick(nameText.getText()
+										.toString(), false, discription.getText()
+										.toString(), getArguments().getLong("LIST_ID"));
+							*/
+								ListControl mControl = new ListControl(getActivity(), adapter);
+								mControl.listUpdate(getArguments().getLong("LIST_ID"),nameText.getText()
+										.toString() , false, discription.getText().toString(), getArguments().getInt("POSITION"));
+							}
+							else {
+								ListControl mControl = new ListControl(getActivity(), adapter);
+								mControl.createList(nameText.getText().toString(), false, discription.getText().toString());							/*listener.onPositiveClick(nameText.getText()
 									.toString(), false, discription.getText()
 									.toString());
+						*/
+						}
 							dismiss();
 
 						}
@@ -302,5 +384,7 @@ public class ShowListFragment extends Fragment implements DialogListener {
 		}
 
 	}
+
+	
 
 }

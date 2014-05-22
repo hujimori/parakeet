@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity {
 		} else {
 			if (savedInstanceState == null) {
 				setContentView(R.layout.activity_main);
-
+			}
 				ActionBar mActionBar = getActionBar();
 
 				mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -84,7 +84,8 @@ public class MainActivity extends FragmentActivity {
 				setDrawerLayout();
 
 				setListAdapter();
-			}
+			
+				
 		}
 	}
 
