@@ -34,7 +34,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 	private CharSequence charSequence;
 	private Context mContext;
 	private String url;
-	
+
 
 	public StatusAdapter(Context mContext) {
 		super(mContext, android.R.layout.simple_list_item_1);
@@ -72,7 +72,6 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			mViewHolder.via = (TextView) convertView.findViewById(R.id.via);
 
 			mViewHolder.layout = (LinearLayout) convertView.findViewById(R.id.image);
-			//mViewHolder.thumn = (ImageView) convertView.findViewById(R.id.thum);
 
 			convertView.setTag(mViewHolder);
 
@@ -82,7 +81,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			mViewHolder = (ViewHolder) convertView.getTag();
 		}
 
-		
+
 
 		mViewHolder.screenName.setText("@" + status.getUser().getScreenName()
 				+ "/" + status.getUser().getName());
@@ -92,6 +91,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 		mViewHolder.tweetTime.setText(mViewHolder.date.format(status
 				.getCreatedAt()));
 
+		mViewHolder.icon.setVisibility(View.GONE);
 		mViewHolder.icon.setTag(status.getUser().getBiggerProfileImageURL());
 		DownLoadTask task1 = new DownLoadTask(mViewHolder.icon);
 		task1.setProfileIcon(status.getUser().getBiggerProfileImageURL());
@@ -100,7 +100,6 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 
 		mViewHolder.via.setText("via " + charSequence.toString());
 
-		//mViewHolder.thumn.setVisibility(View.GONE);
 
 
 		MediaEntity[] entities = status.getMediaEntities();
@@ -108,12 +107,12 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			for (MediaEntity media : entities) {
 				url = media.getMediaURL();
 
-				//mViewHolder.thumn.setVisibility(View.VISIBLE);
+				ImageView thunail = (ImageView) mInflater.inflate(R.layout.imageview, null);
+				thunail.setVisibility(View.GONE);
+				thunail.setTag(url);
 
-				//mViewHolder.thumn.setTag(url);
-
-				DownLoadTask task2 = new DownLoadTask(mViewHolder.thumn);
-				task2.setThumn(url,mViewHolder.layout);
+				DownLoadTask task2 = new DownLoadTask(thunail);
+				task2.setThumnail(url,mViewHolder.layout);
 			}
 		}
 
@@ -121,7 +120,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 
 	}
 
-	
-	
+
+
 
 }
