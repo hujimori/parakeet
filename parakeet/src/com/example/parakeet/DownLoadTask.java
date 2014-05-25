@@ -34,6 +34,7 @@ public class DownLoadTask {
 	public DownLoadTask(ImageView imageView) {
 
 		this.imageView = imageView;
+		this.tag = imageView.getTag().toString();
 
 	}
 
@@ -52,9 +53,8 @@ public class DownLoadTask {
 
 					Bitmap image = ImageCache.getImage(urls);
 
-				//	tag = imageView.getTag().toString();
 
-				//	if (image == null) {
+					if (image == null) {
 
 						URL url = new URL(urls);
 
@@ -64,7 +64,7 @@ public class DownLoadTask {
 
 						ImageCache.setImage(urls, image);
 
-					//}
+					}
 
 					return image;
 				} catch (MalformedURLException e) {
@@ -80,14 +80,15 @@ public class DownLoadTask {
 			protected void onPostExecute(Bitmap result) {
 				// TODO 自動生成されたメソッド・スタブ
 
-				//if (tag.equals(imageView.getTag())) {
+				if (tag.equals(imageView.getTag())) {
 
 					if (result != null) {
 
 						imageView.setImageBitmap(result);
+						ll.setVisibility(View.VISIBLE);
 						ll.addView(imageView);
 					}
-				//}
+				}
 
 			}
 
@@ -147,6 +148,7 @@ public class DownLoadTask {
 		};
 		asyncTask.execute();
 	}
+
 	/**
 	 * 
 	 * @param iconUrl
