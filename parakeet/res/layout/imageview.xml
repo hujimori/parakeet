@@ -3,6 +3,4 @@
     android:id="@+id/thum"
     android:layout_width="80dp"
     android:layout_height="80dp"
-    android:layout_below="@+id/text"
-    android:layout_toLeftOf="@+id/tweetTime"
-    android:layout_toRightOf="@+id/via" />
+    />

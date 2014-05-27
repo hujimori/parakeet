@@ -94,6 +94,7 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private void setPager() {
 
+		
 		PagerTabStrip mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_tab);
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
 		TabsPagerAdapter mAdapter = new TabsPagerAdapter(

@@ -24,26 +24,25 @@ public class DownLoadTask {
 	// ---------------------------------------------------------------------------------------------
 	// instance field
 	// ---------------------------------------------------------------------------------------------
-	private ImageView imageView;
+	private ImageView image;
 	private String tag;
 
 	/**
 	 * 
 	 * @param imageView
 	 */
-	public DownLoadTask(ImageView imageView) {
 
-		this.imageView = imageView;
-		this.tag = imageView.getTag().toString();
-
+	public DownLoadTask(ImageView _image) {
+		this.image = _image;
+		tag = this.image.getTag().toString();
 	}
 
 	/**
 	 * 
 	 * @param urls
 	 */
-	public void setThumn(final String urls, final LinearLayout ll) {
-		AsyncTask<Void, Void, Bitmap> asyncTask = new AsyncTask<Void, Void, Bitmap>() {
+	public void setThumnail(final String urls) {
+		AsyncTask<Void, Void, Bitmap> task = new AsyncTask<Void, Void, Bitmap>() {
 
 			@Override
 			protected Bitmap doInBackground(Void... params) {
@@ -51,17 +50,20 @@ public class DownLoadTask {
 
 				try {
 
+					// キャッシュより画像データを取得
 					Bitmap image = ImageCache.getImage(urls);
 
+					// キャッシュに画像がないならwebから画像取得
 
 					if (image == null) {
 
 						URL url = new URL(urls);
 
+						// URLから画像をデコード
 						BitmapControl control = new BitmapControl();
-
 						image = control.dedcodeBitmmapUrl(url);
 
+						// キャッシュに保存
 						ImageCache.setImage(urls, image);
 
 					}
@@ -80,20 +82,23 @@ public class DownLoadTask {
 			protected void onPostExecute(Bitmap result) {
 				// TODO 自動生成されたメソッド・スタブ
 
-				if (tag.equals(imageView.getTag())) {
+				// tagが同じものか判定
+				if (tag.equals(image.getTag())) {
 
 					if (result != null) {
 
-						imageView.setImageBitmap(result);
-						ll.setVisibility(View.VISIBLE);
-						ll.addView(imageView);
+						// imageをLinearLayoutにセット
+						image.setImageBitmap(result);
+						image.setVisibility(View.VISIBLE);
+
 					}
+
 				}
 
 			}
 
 		};
-		asyncTask.execute();
+		task.execute();
 	}
 
 	public void setProfileIcon(final String urls) {
@@ -107,8 +112,6 @@ public class DownLoadTask {
 
 					Bitmap image = ImageCache.getImage(urls);
 
-					tag = imageView.getTag().toString();
-
 					if (image == null) {
 
 						URL url = new URL(urls);
@@ -135,14 +138,14 @@ public class DownLoadTask {
 			protected void onPostExecute(Bitmap result) {
 				// TODO 自動生成されたメソッド・スタブ
 
-				if (tag.equals(imageView.getTag())) {
+				if (tag.equals(image.getTag())) {
 
 					if (result != null) {
 
-						imageView.setImageBitmap(result);
+						image.setImageBitmap(result);
 					}
 				}
-
+				// image.setVisibility(View.VISIBLE);
 			}
 
 		};
@@ -184,7 +187,7 @@ public class DownLoadTask {
 
 				if (result != null) {
 
-					imageView.setImageBitmap(result);
+					image.setImageBitmap(result);
 					// layout.addView(imageView);
 				}
 			}

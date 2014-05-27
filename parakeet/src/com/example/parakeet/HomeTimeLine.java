@@ -39,8 +39,8 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	// class field declaration
 	// ---------------------------------------------------------------------------------------------
 	public static final String ARG_SECTION_NUMBER = "position_number"; 
-	public static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
-	public static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
+	private static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
+	private static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
 	public static final int REQUEST_CODE = 1; // REQUEST_CODE
 	public static final int RESULT_CODE = 2; // RESULT_CODE'
 																	

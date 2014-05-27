@@ -147,7 +147,7 @@ public class TweetView extends DialogFragment {
 				if (filePath == null) {
 					update.tweet(editText);
 				} else {
-					update.media(editText, filePath);
+					update.uploadTwitpic(editText.getText().toString(), filePath);
 					filePath = null;
 				}
 				dismiss();
