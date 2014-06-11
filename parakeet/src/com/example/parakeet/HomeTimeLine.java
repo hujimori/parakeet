@@ -6,6 +6,8 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.UserStreamAdapter;
+import yanzm.products.quickaction.lib.ActionItem;
+import yanzm.products.quickaction.lib.QuickAction;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -17,6 +19,8 @@ import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,15 +42,14 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	// ---------------------------------------------------------------------------------------------
 	// class field declaration
 	// ---------------------------------------------------------------------------------------------
-	public static final String ARG_SECTION_NUMBER = "position_number"; 
+	public static final String ARG_SECTION_NUMBER = "position_number";
 	private static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
 	private static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
 	public static final int REQUEST_CODE = 1; // REQUEST_CODE
 	public static final int RESULT_CODE = 2; // RESULT_CODE'
-																	
 
 	// ---------------------------------------------------------------------------------------------
-	// instance field 
+	// instance field
 	// ---------------------------------------------------------------------------------------------
 	private LoadStatus loadStatus;
 	private PullToRefreshListView mPullToRefreshListView;
@@ -59,7 +62,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	private SharedPreferences sharedPreferences;
 	private Vibrator vibrator;
 	private com.example.parakeet.User user;
-	
+
 	/**
 	 * Factory method
 	 * 
@@ -102,6 +105,18 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		listView.setDivider(null);
 		listView.setVerticalScrollBarEnabled(false);
 		listView.setSelector(android.R.color.transparent);
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO 自動生成されたメソッド・スタブ
+				QuickAction action = new QuickAction(view);
+				createActionItem(action);
+
+			}
+
+		});
 		listView.addFooterView(LayoutInflater.from(getActivity()).inflate(
 				R.layout.item_footer, listView, false));
 		sharedPreferences = PreferenceManager
@@ -116,11 +131,31 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		// TODO 自動生成されたメソッド・スタブ
 		super.onViewCreated(view, savedInstanceState);
 
-			mPullToRefreshListView = getPullToRefreshListView();
+		mPullToRefreshListView = getPullToRefreshListView();
 
-		
 		mPullToRefreshListView.setMode(Mode.PULL_FROM_END);
 		mPullToRefreshListView.setOnRefreshListener(this);
+
+	}
+
+	private void createActionItem(QuickAction action) {
+		ActionItem reply = new ActionItem();
+		reply.setIcon(getResources().getDrawable(R.drawable.reply));
+		reply.setTitle("REPLY");
+		action.addActionItem(reply);
+
+		ActionItem retweet = new ActionItem();
+		retweet.setIcon(getResources().getDrawable(R.drawable.retweet));
+		retweet.setTitle("RETWEET");
+		action.addActionItem(retweet);
+
+		ActionItem favorite = new ActionItem();
+		favorite.setIcon(getResources().getDrawable(R.drawable.favorite));
+		favorite.setTitle("FAVORITE");
+		action.addActionItem(favorite);
+		
+		action.setAnimStyle(QuickAction.ANIM_AUTO);
+		action.show();
 
 	}
 

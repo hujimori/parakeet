@@ -143,9 +143,11 @@ public class DownLoadTask {
 					if (result != null) {
 
 						image.setImageBitmap(result);
+						image.setVisibility(View.VISIBLE);
+
 					}
 				}
-				// image.setVisibility(View.VISIBLE);
+
 			}
 
 		};

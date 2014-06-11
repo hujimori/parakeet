@@ -10,13 +10,32 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class ProfileAdapter extends ArrayAdapter<BindData> {
+class ProfileBindData {
+
+	private String count;
+	private String text;
+		
+	public ProfileBindData(String text, String count) {
+		this.text = text;
+		this.count = count;
+	}
+	
+	public String getText() {
+		return text;
+	}
+	public String getCount() {
+		return count;
+	}
+}
+
+public class ProfileAdapter extends ArrayAdapter<ProfileBindData> {
 
 	private Context mContext;
 	private LayoutInflater inflater;
 	private ViewHolder holder;
 
-	public ProfileAdapter(Context context, List<BindData> objects) {
+
+	public ProfileAdapter(Context context, List<ProfileBindData> objects) {
 		super(context, 0, objects);
 		// TODO 自動生成されたコンストラクター・スタブ
 		this.mContext = context;
@@ -28,7 +47,7 @@ public class ProfileAdapter extends ArrayAdapter<BindData> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO 自動生成されたメソッド・スタブ
 
-		BindData bindData = (BindData) getItem(position);
+		ProfileBindData bindData = (ProfileBindData) getItem(position);
 
 		if (convertView == null) {
 

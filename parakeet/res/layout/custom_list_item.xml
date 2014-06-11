@@ -14,13 +14,13 @@
             android:id="@+id/iamgeview"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="8dp" />
+            android:layout_margin="8dp" />
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-           	android:paddingLeft="4dp"
+           	android:layout_marginLeft="4dp"
             android:gravity="center_vertical"
             android:layout_weight="1"
             android:textSize="16sp"

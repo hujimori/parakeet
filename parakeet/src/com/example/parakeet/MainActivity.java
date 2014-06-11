@@ -53,9 +53,10 @@ public class MainActivity extends FragmentActivity {
 	// ---------------------------------------------------------------------------------------------
 	private final int[] mImages = {
 
-	R.drawable.ic_contact_picture, R.drawable.ic_sysbar_quicksettings };
+	R.drawable.ic_contact_picture, R.drawable.ic_menu_search,
+			R.drawable.ic_sysbar_quicksettings };
 
-	private final String[] mTitles = { "Profile", "Setting" };
+	private final String[] mTitles = { "アカウント", "検索", "設定" };
 
 	/**
 	 * Called when the activity is first created.
@@ -73,19 +74,18 @@ public class MainActivity extends FragmentActivity {
 			if (savedInstanceState == null) {
 				setContentView(R.layout.activity_main);
 			}
-				ActionBar mActionBar = getActionBar();
+			ActionBar mActionBar = getActionBar();
 
-				mActionBar.setDisplayHomeAsUpEnabled(true);
+			mActionBar.setDisplayHomeAsUpEnabled(true);
 
-				mActionBar.setHomeButtonEnabled(true);
+			mActionBar.setHomeButtonEnabled(true);
 
-				setPager();
+			setPager();
 
-				setDrawerLayout();
+			setDrawerLayout();
 
-				setListAdapter();
-			
-				
+			setListAdapter();
+
 		}
 	}
 
@@ -94,7 +94,6 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private void setPager() {
 
-		
 		PagerTabStrip mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_tab);
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
 		TabsPagerAdapter mAdapter = new TabsPagerAdapter(
@@ -108,6 +107,7 @@ public class MainActivity extends FragmentActivity {
 		mViewPager.setAdapter(mAdapter); // Set adapter
 
 	}
+
 	/**
 	 * 
 	 * Set list adapter
@@ -154,13 +154,22 @@ public class MainActivity extends FragmentActivity {
 		mTitle = mDrawerTitle = getTitle();
 
 		ClipImageView icon = (ClipImageView) findViewById(R.id.icon);
+		icon.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO 自動生成されたメソッド・スタブ
+				Intent intent = new Intent();
+				intent.setClass(MainActivity.this, Profile.class);
+				startActivity(intent);
+
+			}
+		});
 		BitmapControl bitmapControl = new BitmapControl();
 		String url = TwitterUtils.loadUserIcon(this, TwitterUtils.loadID(this));
 		bitmapControl.roundBitmap(this, url, icon);
 		TextView textView = (TextView) findViewById(R.id.text);
-		user = gson.fromJson(
-				TwitterUtils.loadUser(this),
-				User.class);
+		user = gson.fromJson(TwitterUtils.loadUser(this), User.class);
 		textView.setText(user.name);
 
 		mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -186,14 +195,7 @@ public class MainActivity extends FragmentActivity {
 
 		};
 
-		icon.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO 自動生成されたメソッド・スタブ
-				showAccount();
-			}
-		});
+	
 
 		mDrawerLayout.setDrawerListener(mToggle);
 	}
@@ -255,10 +257,10 @@ public class MainActivity extends FragmentActivity {
 		accountView.show(getSupportFragmentManager(), "accountView");
 
 	}
-	
+
 	class DrawerListItemclickListener implements OnItemClickListener {
 
-		//private int pos;
+		// private int pos;
 
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {

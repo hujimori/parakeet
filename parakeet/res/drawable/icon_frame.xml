@@ -8,6 +8,6 @@
         android:height="400dp"/>
     <stroke
         android:width="20dp"
-        android:color="@color/main_color_dark" />
+        android:color="#ffffff" />
 
 </shape>

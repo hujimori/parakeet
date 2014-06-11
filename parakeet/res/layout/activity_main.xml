@@ -34,46 +34,53 @@
         android:layout_gravity="start"
         android:orientation="vertical" >
 
-        <FrameLayout
-            android:id="@+id/frame"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <com.loopj.android.image.SmartImageView
-                android:id="@+id/header"
-                android:layout_width="240dp"
-                android:layout_height="200dp"
-                android:background="#000000" >
-            </com.loopj.android.image.SmartImageView>
+            android:layout_height="200dp"
+            android:background="#1C1C1C"
+            android:orientation="vertical" >
 
             <com.example.parakeet.ClipImageView
                 android:id="@+id/icon"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
-                android:layout_gravity="center"
-                android:background="@drawable/icon_frame" >
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center" >
             </com.example.parakeet.ClipImageView>
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
                 android:textColor="#ffffff"
-                android:layout_gravity="center_horizontal|bottom" />
-        </FrameLayout>
-        
-      
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Show Profile"
+                android:textColor="#DCDCDC"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            style="android"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000000" />
 
         <ListView
             android:id="@+id/left_drawer_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="#d3d3d3"
+            android:background="#1C1C1C"
             android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp" />
+            android:divider="#000000"
+            android:dividerHeight="1dp" />
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

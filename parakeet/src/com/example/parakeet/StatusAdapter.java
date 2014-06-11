@@ -37,6 +37,7 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 		TextView text;
 		TextView via;
 		TextView tweetTime;
+		TextView userName;
 		java.text.DateFormat date;
 		ImageView icon;
 		ImageView[] thumnail = new ImageView[6];
@@ -81,6 +82,9 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			mViewHolder.screenName = (TextView) convertView
 					.findViewById(R.id.screen_name);
 
+			mViewHolder.userName = (TextView) convertView
+					.findViewById(R.id.user_name);
+
 			mViewHolder.text = (TextView) convertView.findViewById(R.id.text);
 
 			mViewHolder.tweetTime = (TextView) convertView
@@ -120,24 +124,25 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 		else {
 			mViewHolder = (ViewHolder) convertView.getTag();
 		}
-		
-		
+
 		mViewHolder.thumnail[0].setVisibility(View.GONE);
 		mViewHolder.thumnail[1].setVisibility(View.GONE);
 		mViewHolder.thumnail[2].setVisibility(View.GONE);
 		mViewHolder.thumnail[3].setVisibility(View.GONE);
 		mViewHolder.thumnail[4].setVisibility(View.GONE);
 		mViewHolder.thumnail[5].setVisibility(View.GONE);
-	
-		mViewHolder.screenName.setText("@" + status.getUser().getScreenName()
-				+ "/" + status.getUser().getName());
+
+		mViewHolder.userName.setText(status.getUser().getName() );
+
+		mViewHolder.screenName.setText("/@" + status.getUser().getScreenName());
 
 		mViewHolder.text.setText(status.getText());
 
 		mViewHolder.tweetTime.setText(mViewHolder.date.format(status
 				.getCreatedAt()));
 
-//		mViewHolder.icon.setVisibility(View.INVISIBLE);
+		// mViewHolder.icon.setVisibility(View.GONE);
+		// mViewHolder.icon.setImageResource(R.drawable.ic_popup_sync_4);
 		mViewHolder.icon.setTag(status.getUser().getBiggerProfileImageURL());
 		DownLoadTask task1 = new DownLoadTask(mViewHolder.icon);
 		task1.setProfileIcon(status.getUser().getBiggerProfileImageURL());
@@ -153,14 +158,15 @@ public class StatusAdapter extends ArrayAdapter<twitter4j.Status> {
 			int i = 0;
 			for (URLEntity media : entities) {
 				String url = media.getExpandedURL();
-				Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show(); 
-				//mViewHolder.thumnail[i].setVisibility(View.INVISIBLE);
-				//mViewHolder.thumnail[i].setTag(url);
-				//DownLoadTask task = new DownLoadTask(mViewHolder.thumnail[i]);
-				//task.setThumnail(url);
+				Toast.makeText(mContext, url, Toast.LENGTH_SHORT).show();
+				// mViewHolder.thumnail[i].setVisibility(View.INVISIBLE);
+				// mViewHolder.thumnail[i].setTag(url);
+				// DownLoadTask task = new
+				// DownLoadTask(mViewHolder.thumnail[i]);
+				// task.setThumnail(url);
 				i++;
 			}
-			
+
 		}
 
 		/*

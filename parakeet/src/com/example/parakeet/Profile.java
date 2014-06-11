@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class Profile extends FragmentActivity {
@@ -55,18 +56,20 @@ public class Profile extends FragmentActivity {
 		Gson gson = new Gson();
 		User user = gson.fromJson(TwitterUtils.loadUser(this), User.class);
 
-		String[] strings = { "TWEETS", "FOLLOW", "FOLLOWER", "FAVORITE", "LIST" };
+		String[] strings = { "TWEETS", "FOLLOW", "FOLLOWER", "FAVOURITE",
+				"LIST" };
 
-		String[] counts = { user.statuses_count, user.friends_count,
-				user.followers_count, user.favorites_count, "" };
+		String[] counts = { user.statusesCount, user.friendsCount,
+				user.followersCount, user.favouritesCount, "" };
 
-		List<BindData> objects = new ArrayList<BindData>();
+		List<ProfileBindData> objects = new ArrayList<ProfileBindData>();
 		for (int i = 0; i < strings.length; i++) {
 
-			objects.add(new BindData(strings[i], counts[i]));
+			objects.add(new ProfileBindData(strings[i], counts[i]));
 
 		}
 
+		// Toast.makeText(this, counts[1], Toast.LENGTH_SHORT).show();
 		ProfileAdapter mAdapter = new ProfileAdapter(this, objects);
 		ListView listView = (ListView) findViewById(R.id.list);
 		listView.setAdapter(mAdapter);
@@ -86,7 +89,6 @@ public class Profile extends FragmentActivity {
 	private class ListItemOnClickListener implements OnItemClickListener {
 
 		private final String KEY = "key";
-		
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -102,22 +104,22 @@ public class Profile extends FragmentActivity {
 				mIntent.putExtra(KEY, position);
 				startActivity(mIntent);
 				break;
-				
+
 			case 1:
 				mIntent.putExtra(KEY, position);
 				startActivity(mIntent);
 				break;
-				
+
 			case 2:
 				mIntent.putExtra(KEY, position);
 				startActivity(mIntent);
 				break;
-				
+
 			case 3:
 				mIntent.putExtra(KEY, position);
 				startActivity(mIntent);
 				break;
-				
+
 			case 4:
 				mIntent.putExtra(KEY, position);
 				startActivity(mIntent);
@@ -181,13 +183,12 @@ public class Profile extends FragmentActivity {
 			User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
 					User.class);
 			ClipImageView icon = (ClipImageView) view.findViewById(R.id.icon);
-
 			BitmapControl bitmapControl = new BitmapControl();
 			TextView screenName = (TextView) view
 					.findViewById(R.id.screen_name);
 			screenName.setText(user.screenName);
-			// TextView name = (TextView) view.findViewById(R.id.name);
-			// name.setText(user.name);
+			TextView name = (TextView) view.findViewById(R.id.name);
+			name.setText(user.name);
 			bitmapControl.roundBitmap(
 					getActivity(),
 					TwitterUtils.loadUserIcon(getActivity(),
@@ -215,7 +216,22 @@ public class Profile extends FragmentActivity {
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			// TODO 自動生成されたメソッド・スタブ
-			return inflater.inflate(R.layout.fragment2, null);
+			View view = inflater.inflate(R.layout.fragment2, null);
+
+			Gson gson = new Gson();
+			User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
+					User.class);
+
+			TextView profile = (TextView) view.findViewById(R.id.profile);
+			profile.setText(user.description);
+
+			TextView location = (TextView) view.findViewById(R.id.location);
+			location.setText(user.location);
+
+			TextView createdAt = (TextView) view.findViewById(R.id.createdAt);
+			createdAt.setText(user.createdAt);
+
+			return view;
 		}
 
 	}

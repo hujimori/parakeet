@@ -44,7 +44,15 @@ public class TweetView extends DialogFragment {
 	private LinearLayout layout;
 	private LayoutInflater inflater;
 	private TextView textCount;
+	
 
+	private static int MODE;
+	
+	public static long STATUS_ID;
+	public static int TWEET_MODE = 0;
+	public static int REPLY_MODE = 1;
+	public static int RETWEET_MODE = 2;
+	
 	// 定数宣言
 	private final static int REQUEST_CODE = 1;
 
@@ -55,7 +63,19 @@ public class TweetView extends DialogFragment {
 
 	public static TweetView newInstance() {
 		TweetView tweetView = new TweetView();
-
+		return tweetView;
+	}
+	
+	public static TweetView newInstance(int mode) {
+		TweetView tweetView = new TweetView();
+		MODE = mode;
+		return tweetView;
+	}
+	
+	public static TweetView newInstance(int mode, long id) {
+		TweetView tweetView = new TweetView();
+		MODE = mode;
+		STATUS_ID = id;
 		return tweetView;
 	}
 
@@ -145,7 +165,18 @@ public class TweetView extends DialogFragment {
 				update = new TwitterUpdate(mTwitter, getActivity());
 
 				if (filePath == null) {
-					update.tweet(editText);
+					
+					switch (MODE) {
+					case 1:
+						update.reply(editText.getText().toString(), STATUS_ID);
+					
+					case 2:
+						update.retweet(STATUS_ID);
+					
+					default:
+						update.tweet(editText.getText().toString());
+
+					}
 				} else {
 					update.uploadTwitpic(editText.getText().toString(), filePath);
 					filePath = null;
