@@ -29,7 +29,7 @@ public class TwitterUpdate {
 		this.mContext = mContext;
 	}
 
-	public void tweet(final EditText editText) {
+	public void tweet(final String tweet) {
 		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(String... params) {
@@ -53,7 +53,7 @@ public class TwitterUpdate {
 
 			}
 		};
-		task.execute(editText.getText().toString());
+		task.execute(tweet);
 	}
 
 	
@@ -129,14 +129,13 @@ public class TwitterUpdate {
 		task.execute(tweet);
 	}
 
-	public void reply(final EditText editText, final Long fav) {
+	public void reply(final String tweet, final Long statusId) {
 		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(String... params) {
 				try {
-					StatusUpdate statusUpdate = new StatusUpdate(editText
-							.getText().toString());
-					statusUpdate.setInReplyToStatusId(fav);
+					StatusUpdate statusUpdate = new StatusUpdate(tweet);
+					statusUpdate.setInReplyToStatusId(statusId);
 					mTwitter.updateStatus(statusUpdate);
 					return true;
 				} catch (TwitterException e) {
@@ -151,19 +150,19 @@ public class TwitterUpdate {
 					showToast("リプライを送りました");
 
 				} else {
-					showToast("リプライが失敗しました");
+					showToast("リプライを送れませんでした");
 				}
 			}
 		};
 		task.execute();
 	}
 
-	public void retweet(final Long fav) {
+	public void retweet(final Long statusId) {
 		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(String... params) {
 				try {
-					mTwitter.retweetStatus(fav);
+					mTwitter.retweetStatus(statusId);
 					return true;
 				} catch (TwitterException e) {
 					e.printStackTrace();

@@ -12,7 +12,6 @@ public class BindData {
 	// ---------------------------------------------------------------------------------------------
 	private String text;
 	private String id;
-	private String count;
 	private int resourceId;
 	private boolean ischecked;
 
@@ -28,15 +27,6 @@ public class BindData {
 
 	}
 	
-	/**
-	 * 
-	 * @param text
-	 * @param count
-	 */
-	public BindData(String text, String count) {
-		this.text = text;
-		this.count = count;
-	}
 
 	/**
 	 * 
@@ -76,8 +66,8 @@ public class BindData {
 	 * 
 	 * @return
 	 */
-	public String getCount() {
-		return count;
+	public int getCount() {
+		return resourceId;
 	}
 	
 	/**
