@@ -8,8 +8,21 @@ import android.view.ViewGroup;
 
 public class ShowFavoritesFragment extends ListFragment {
 
+	private StatusAdapter adapter;
+	private LoadStatus loadStatus;
 	
-	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onCreate(savedInstanceState);
+		
+		adapter = new StatusAdapter(getActivity());
+		
+		loadStatus = new LoadStatus(adapter, getActivity());
+		
+		loadStatus.loadFavorites();
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -21,6 +34,8 @@ public class ShowFavoritesFragment extends ListFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onViewCreated(view, savedInstanceState);
+		
+		setListAdapter(adapter);
 	}
 
 	

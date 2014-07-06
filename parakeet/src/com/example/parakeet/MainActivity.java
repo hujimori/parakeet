@@ -54,9 +54,9 @@ public class MainActivity extends FragmentActivity {
 	private final int[] mImages = {
 
 	R.drawable.ic_contact_picture, R.drawable.ic_menu_search,
-			R.drawable.ic_sysbar_quicksettings };
+			R.drawable.ic_dialog_email, R.drawable.ic_sysbar_quicksettings };
 
-	private final String[] mTitles = { "アカウント", "検索", "設定" };
+	private final String[] mTitles = { "アカウント", "検索", "通知", "設定" };
 
 	/**
 	 * Called when the activity is first created.
@@ -97,7 +97,7 @@ public class MainActivity extends FragmentActivity {
 		PagerTabStrip mPagerTabStrip = (PagerTabStrip) findViewById(R.id.pager_tab);
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.pager);
 		TabsPagerAdapter mAdapter = new TabsPagerAdapter(
-				getSupportFragmentManager());
+				getSupportFragmentManager(), this);
 
 		mPagerTabStrip.setTabIndicatorColor(getResources().getColor(
 				R.color.main_color_light));
@@ -195,8 +195,6 @@ public class MainActivity extends FragmentActivity {
 
 		};
 
-	
-
 		mDrawerLayout.setDrawerListener(mToggle);
 	}
 
@@ -220,11 +218,14 @@ public class MainActivity extends FragmentActivity {
 
 		switch (item.getItemId()) {
 		case R.id.menu_edit:
-			showTweetDialog();
+			// showTweetDialog();
+			Intent mIntent = new Intent();
+			mIntent.setClass(getApplication(), TweetActivity.class);
+			startActivity(mIntent);
 			break;
 
 		case R.id.menu_serach:
-			showAccount();
+			// showAccount();
 			break;
 		}
 		if (mToggle.onOptionsItemSelected(item)) {

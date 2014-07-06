@@ -15,6 +15,7 @@ public class ShowTweetActivity extends FragmentActivity {
 	protected void onCreate(Bundle mBundle) {
 		// TODO 自動生成されたメソッド・スタブ
 		super.onCreate(mBundle);
+		setContentView(R.layout.show_tweet_activity);
 
 		Intent mIntent = getIntent();
 		int position = mIntent.getIntExtra(KEY, 0);
@@ -25,22 +26,22 @@ public class ShowTweetActivity extends FragmentActivity {
 			ShowTweetsFragment stFragment = new ShowTweetsFragment();
 			transactionFragment(stFragment);
 			break;
-			
+
 		case 1:
 			ShowFollowFragment sfFragment = new ShowFollowFragment();
 			transactionFragment(sfFragment);
 			break;
-			
+
 		case 2:
 			ShowFollowerFragment sfrFragment = new ShowFollowerFragment();
 			transactionFragment(sfrFragment);
 			break;
-			
+
 		case 3:
 			ShowFavoritesFragment sfvFragment = new ShowFavoritesFragment();
 			transactionFragment(sfvFragment);
 			break;
-			
+
 		case 4:
 			ShowListFragment listFragment = new ShowListFragment();
 			transactionFragment(listFragment);
@@ -48,12 +49,12 @@ public class ShowTweetActivity extends FragmentActivity {
 		}
 
 	}
-	
+
 	private void transactionFragment(Fragment fragment) {
-		
+
 		FragmentManager manager = getSupportFragmentManager();
 		FragmentTransaction transaction = manager.beginTransaction();
-		transaction.add(android.R.id.content, fragment).commit();
+		transaction.add(R.id.content, fragment).commit();
 	}
 
 }

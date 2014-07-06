@@ -333,6 +333,39 @@ public class LoadStatus {
 		task.execute();
 	}
 
+	public void loadListTimeLine(final long id) {
+		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<Status>>() {
+
+			@Override
+			protected List<twitter4j.Status> doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+
+				try {
+					return TwitterUtils.getTwitterInstance(mContext)
+							.getUserListStatuses(id, new Paging(1).count(30));
+				} catch (TwitterException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			protected void onPostExecute(List<twitter4j.Status> statuses) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(statuses);
+				
+				if (statuses != null) {
+					for (twitter4j.Status status : statuses) {
+						mAdapter.add(status);
+					}
+				}
+			}
+
+		};
+		task.execute();
+	}
+
 	/*
 	 * public void loadFollowers() {
 	 * 
@@ -368,6 +401,7 @@ public class LoadStatus {
 	 * 
 	 * }
 	 */
+
 	public void loadFavorites() {
 		AsyncTask<Void, Void, List<twitter4j.Status>> task = new AsyncTask<Void, Void, List<twitter4j.Status>>() {
 			@Override

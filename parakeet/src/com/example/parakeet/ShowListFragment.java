@@ -7,12 +7,15 @@ import com.google.gson.Gson;
 
 import twitter4j.TwitterException;
 import twitter4j.UserList;
+import android.R.string;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.LauncherActivity.ListItem;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -21,6 +24,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -219,6 +223,14 @@ public class ShowListFragment extends Fragment implements DialogListener {
 						break;
 					// add list tp home
 					case 4:
+						SharedPreferences pref = getActivity().getSharedPreferences("LIST", Context.MODE_PRIVATE);
+						Editor editor = pref.edit();
+						editor.putBoolean("LIST_BOOL", true);
+						editor.putLong("LIST_ID", listId);
+						Log.d("LIST_ID", String.valueOf(listId));
+						editor.commit();
+						Log.d("ID", String.valueOf(editor.commit()));
+						dismiss();
 						/*
 						 * ListTimeLineFragment line =
 						 * ListTimeLineFragment.getInstance

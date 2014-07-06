@@ -2,7 +2,6 @@ package com.example.parakeet;
 
 import java.util.List;
 
-import com.example.parakeet.Profile.Fragment1;
 
 import android.app.Activity;
 import android.content.Context;

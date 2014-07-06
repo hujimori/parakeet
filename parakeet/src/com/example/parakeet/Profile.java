@@ -3,6 +3,10 @@ package com.example.parakeet;
 import java.util.ArrayList;
 import java.util.List;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.User;
+
 import com.google.gson.Gson;
 import com.loopj.android.image.SmartImage;
 import com.loopj.android.image.SmartImageView;
@@ -10,12 +14,14 @@ import com.loopj.android.image.SmartImageView;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +36,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class Profile extends FragmentActivity {
 
 	private final static String USER = "user";
+	private Twitter twitter;
 
 	@Override
 	protected void onCreate(Bundle bundle) {
@@ -53,29 +60,58 @@ public class Profile extends FragmentActivity {
 
 	private void setListAdapter() {
 
-		Gson gson = new Gson();
-		User user = gson.fromJson(TwitterUtils.loadUser(this), User.class);
 
-		String[] strings = { "TWEETS", "FOLLOW", "FOLLOWER", "FAVOURITE",
-				"LIST" };
-
-		String[] counts = { user.statusesCount, user.friendsCount,
-				user.followersCount, user.favouritesCount, "" };
-
-		List<ProfileBindData> objects = new ArrayList<ProfileBindData>();
-		for (int i = 0; i < strings.length; i++) {
-
-			objects.add(new ProfileBindData(strings[i], counts[i]));
-
-		}
-
-		// Toast.makeText(this, counts[1], Toast.LENGTH_SHORT).show();
-		ProfileAdapter mAdapter = new ProfileAdapter(this, objects);
 		ListView listView = (ListView) findViewById(R.id.list);
-		listView.setAdapter(mAdapter);
+		getStatusCount(listView, this);
 		listView.setOnItemClickListener(new ListItemOnClickListener());
 
 	}
+	
+	private void getStatusCount(final ListView lv, final Context cn) {
+		AsyncTask<Void, Void, int[]> task = new AsyncTask<Void, Void, int[]>() {
+
+			@Override
+			protected int[] doInBackground(Void... params) {
+				// TODO 自動生成されたメソッド・スタブ
+				twitter = TwitterUtils.getTwitterInstance(cn);
+				try {
+					User user = twitter.verifyCredentials();
+					int[] counts = { user.getStatusesCount(),
+							user.getFriendsCount(), user.getFollowersCount(),
+							 user.getFavouritesCount(),0 };
+
+					return counts;
+				} catch (TwitterException e) {
+					// TODO 自動生成された catch ブロック
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(int[] result) {
+				// TODO 自動生成されたメソッド・スタブ
+				super.onPostExecute(result);
+				String[] strings = { "TWEETS", "FOLLOW", "FOLLOWER",
+							"FAVOURITE", "LIST" };
+
+					List<ProfileBindData> objects = new ArrayList<ProfileBindData>();
+					for (int i = 0; i < strings.length; i++) {
+						objects.add(new ProfileBindData(strings[i], result[i]));
+						Log.d("count", String.valueOf(result[i]));
+					}
+
+					ProfileAdapter mAdapter = new ProfileAdapter(cn,
+							objects);
+					lv.setAdapter(mAdapter);
+			}
+
+		};
+		task.execute();
+		
+	}
+
 
 	private void setPager() {
 
@@ -130,6 +166,7 @@ public class Profile extends FragmentActivity {
 
 	}
 
+
 	private class ProfilePagerAdapter extends FragmentPagerAdapter {
 
 		public ProfilePagerAdapter(FragmentManager fm) {
@@ -149,6 +186,7 @@ public class Profile extends FragmentActivity {
 				return Fragmnet2.newInstance(position);
 
 			}
+			
 		}
 
 		@Override
@@ -157,6 +195,7 @@ public class Profile extends FragmentActivity {
 			return 2;
 		}
 
+	
 	}
 
 	public static class Fragment1 extends Fragment {
@@ -180,15 +219,12 @@ public class Profile extends FragmentActivity {
 			View view = inflater.inflate(R.layout.fragment1, null);
 
 			Gson gson = new Gson();
-			User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
-					User.class);
 			ClipImageView icon = (ClipImageView) view.findViewById(R.id.icon);
 			BitmapControl bitmapControl = new BitmapControl();
 			TextView screenName = (TextView) view
 					.findViewById(R.id.screen_name);
-			screenName.setText(user.screenName);
 			TextView name = (TextView) view.findViewById(R.id.name);
-			name.setText(user.name);
+		//	getProfile(screenName, name);
 			bitmapControl.roundBitmap(
 					getActivity(),
 					TwitterUtils.loadUserIcon(getActivity(),
@@ -196,9 +232,40 @@ public class Profile extends FragmentActivity {
 
 			return view;
 		}
+		
+		private void getProfile(final TextView tv1, final TextView tv2) {
+			AsyncTask<Void, Void, User> task = new AsyncTask<Void, Void, User>() {
 
+				@Override
+				protected User doInBackground(Void... params) {
+					// TODO 自動生成されたメソッド・スタブ
+					try {
+						return TwitterUtils.getTwitterInstance(getActivity()).verifyCredentials();
+					} catch (TwitterException e) {
+						// TODO 自動生成された catch ブロック
+						e.printStackTrace();
+						return null;
+					}
+				}
+
+				@Override
+				protected void onPostExecute(User user) {
+					// TODO 自動生成されたメソッド・スタブ
+					super.onPostExecute(user);
+					
+					if (user != null) {
+						//tv1.setText(user.getScreenName());
+						//tv2.setText(user.getName());
+					}
+				}
+				
+				
+			};
+			task.execute();
+			
+		}
 	}
-
+	
 	public static class Fragmnet2 extends Fragment {
 
 		public static final String ARG_SECTION_NUMBER = "position_number"; // fragment
@@ -218,22 +285,25 @@ public class Profile extends FragmentActivity {
 			// TODO 自動生成されたメソッド・スタブ
 			View view = inflater.inflate(R.layout.fragment2, null);
 
-			Gson gson = new Gson();
-			User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
-					User.class);
+		//	Gson gson = new Gson();
+//			User user = gson.fromJson(TwitterUtils.loadUser(getActivity()),
+	//				User.class);
 
-			TextView profile = (TextView) view.findViewById(R.id.profile);
-			profile.setText(user.description);
+//			TextView profile = (TextView) view.findViewById(R.id.profile);
+		//	profile.setText(user.description);
 
-			TextView location = (TextView) view.findViewById(R.id.location);
-			location.setText(user.location);
+//			TextView location = (TextView) view.findViewById(R.id.location);
+		//	location.setText(user.location);
 
-			TextView createdAt = (TextView) view.findViewById(R.id.createdAt);
-			createdAt.setText(user.createdAt);
+//			TextView createdAt = (TextView) view.findViewById(R.id.createdAt);
+		//	createdAt.setText(user.createdAt);
 
 			return view;
 		}
 
 	}
-
+	
+	
 }
+
+

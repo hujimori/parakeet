@@ -42,6 +42,7 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 	// ---------------------------------------------------------------------------------------------
 	// class field declaration
 	// ---------------------------------------------------------------------------------------------
+	public static final int POSITION = 0;
 	public static final String ARG_SECTION_NUMBER = "position_number";
 	private static final String ConsumerKey = "w9MLMH6oVTiPgsTjp3EPQ";
 	private static final String ConsumerSecret = "UQ62vgzN4jFEPFGABXGVnm8IKtHyw4vtolmUtVSJIvU";
@@ -77,27 +78,45 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		return hm;
 	}
 
+	
+	
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onCreate(savedInstanceState);
+		
+
+		context = getActivity();
+
+		adapter = new StatusAdapter(context);
+		
+		loadStatus = new LoadStatus(adapter, getActivity());
+		
+		vibrator = (Vibrator) context
+				.getSystemService(Context.VIBRATOR_SERVICE);
+
+		loadStatus.loadTimeLine();
+
+		startUserStream();
+		
+		Gson gson = new Gson();
+		user = gson.fromJson(TwitterUtils.loadUser(context),
+				com.example.parakeet.User.class);
+		
+
+
+	}
+
+
+
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
 
-		context = getActivity();
-
-		adapter = new StatusAdapter(context);
-
-		vibrator = (Vibrator) context
-				.getSystemService(Context.VIBRATOR_SERVICE);
-
-		loadStatus = new LoadStatus(adapter, context);
-		loadStatus.loadTimeLine();
-
-		startUserStream();
-
-		Gson gson = new Gson();
-		user = gson.fromJson(TwitterUtils.loadUser(context),
-				com.example.parakeet.User.class);
-
+		
 		ListView listView = getListView();
 		listView.setScrollingCacheEnabled(false);
 		listView.setScrollbarFadingEnabled(true);
@@ -122,8 +141,11 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		sharedPreferences = PreferenceManager
 				.getDefaultSharedPreferences(context);
 
-		setListAdapter(adapter);
+		
+		Toast.makeText(context, "呼んだ", Toast.LENGTH_SHORT).show();
 
+		setListAdapter(adapter);
+		
 	}
 
 	@Override
@@ -137,6 +159,15 @@ public class HomeTimeLine extends PullToRefreshListFragment implements
 		mPullToRefreshListView.setOnRefreshListener(this);
 
 	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// TODO 自動生成されたメソッド・スタブ
+		super.onSaveInstanceState(outState);
+	}
+
+
+
 
 	private void createActionItem(QuickAction action) {
 		ActionItem reply = new ActionItem();

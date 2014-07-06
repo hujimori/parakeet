@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +13,10 @@ import android.widget.TextView;
 
 class ProfileBindData {
 
-	private String count;
+	private int count;
 	private String text;
 		
-	public ProfileBindData(String text, String count) {
+	public ProfileBindData(String text, int count) {
 		this.text = text;
 		this.count = count;
 	}
@@ -23,7 +24,7 @@ class ProfileBindData {
 	public String getText() {
 		return text;
 	}
-	public String getCount() {
+	public int getCount() {
 		return count;
 	}
 }
@@ -65,7 +66,8 @@ public class ProfileAdapter extends ArrayAdapter<ProfileBindData> {
 		}
 
 		holder.textView.setText(bindData.getText());
-		holder.count.setText(bindData.getCount());
+		Log.d("getCount", String.valueOf(bindData.getCount()));
+		holder.count.setText(String.valueOf(bindData.getCount()));
 
 		return convertView;
 	}

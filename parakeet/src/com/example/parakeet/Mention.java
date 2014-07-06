@@ -13,7 +13,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 public class Mention extends PullToRefreshListFragment implements
 		OnRefreshListener2<ListView> {
 
-	private StatusAdapter mAdapter;
+	private StatusAdapter adapter;
 	private PullToRefreshListView mPullToRefreshListView;
 
 	public static final String ARG_SECTION_NUMBER = "position_number";
@@ -34,12 +34,13 @@ public class Mention extends PullToRefreshListFragment implements
 		super.onCreate(savedInstanceState);
 
 		if (savedInstanceState == null) {
+			adapter = new StatusAdapter(getActivity());
 
 			// mTwitter = TwitterUtils.getTwitterInstance(getActivity());
 
 			// mAdapter = new TweetAdapter(getActivity());
 
-			mLoadStatus = new LoadStatus(mAdapter, getActivity());
+			mLoadStatus = new LoadStatus(adapter, getActivity());
 			mLoadStatus.loadMention();
 		}
 	}
@@ -48,7 +49,7 @@ public class Mention extends PullToRefreshListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO �����������ꂽ���\�b�h�E�X�^�u
 		super.onActivityCreated(savedInstanceState);
-		setListAdapter(mAdapter);
+		setListAdapter(adapter);
 
 	}
 
